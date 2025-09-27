@@ -1,0 +1,83 @@
+:root {
+  /* Deep Blue Premium Palette (R G B) */
+  --color-blood-red: 30 64 175;    /* #1E40AF - Deep royal blue (primary) */
+  --color-dark-red: 30 58 138;     /* #1E3A8A - Darker blue variant */
+  --color-crimson: 37 99 235;      /* #2563EB - Bright blue accent */
+  --color-copper-orange: 59 130 246;/* #3B82F6 - Light blue accent */
+
+  /* Neutral Colors - Cool Slate Tones */
+  --color-almost-black: 15 23 42;  /* #0F172A - Deep slate dark */
+  --color-smoky-gray: 51 65 85;    /* #334155 - Slate gray */
+  --color-charcoal: 71 85 105;     /* #475569 - Medium slate */
+  --color-slate-gray: 100 116 139; /* #64748B - Light slate */
+  --color-light-gray: 148 163 184; /* #94A3B8 - Very light slate */
+
+  /* Background & Surface Colors - Cool Whites */
+  --color-background: 248 250 252; /* #F8FAFC - Cool white background */
+  --color-surface: 255 255 255;    /* #FFFFFF - Pure white surfaces */
+  --color-surface-secondary: 241 245 249; /* #F1F5F9 - Cool secondary surfaces */
+  --color-surface-tertiary: 226 232 240;  /* #E2E8F0 - Cool tertiary surfaces */
+  
+  /* Border Colors - Cool Grays */
+  --color-border: 226 232 240;     /* #E2E8F0 - Cool borders */
+  --color-border-light: 241 245 249; /* #F1F5F9 - Light cool borders */
+  --color-border-dark: 203 213 225; /* #CBD5E1 - Dark cool borders */
+  
+  /* Text Colors - Slate Tones */
+  --color-text-primary: 15 23 42;  /* #0F172A - Deep slate text */
+  --color-text-secondary: 51 65 85; /* #334155 - Slate secondary text */
+  --color-text-muted: 100 116 139; /* #64748B - Slate muted text */
+  --color-text-light: 148 163 184; /* #94A3B8 - Light slate text */
+  --color-text-white: 255 255 255; /* #FFFFFF - White text */
+  
+  /* Status Colors */
+  --color-success: 34 197 94;      /* #22C55E - Success green */
+  --color-warning: 245 158 11;     /* #F59E0B - Warning amber */
+  --color-error: 239 68 68;        /* #EF4444 - Error red */
+  --color-info: 59 130 246;        /* #3B82F6 - Info blue */
+  
+  /* Interactive Colors - Cool Hover States */
+  --color-hover: 241 245 249;      /* #F1F5F9 - Cool hover states */
+  --color-active: 226 232 240;     /* #E2E8F0 - Cool active states */
+  --color-focus: 59 130 246;       /* #3B82F6 - Blue focus ring */
+  
+  /* Gradient Colors - Blue Gradients */
+  --color-gradient-start: 30 64 175; /* #1E40AF - Deep blue gradient start */
+  --color-gradient-end: 37 99 235;   /* #2563EB - Bright blue gradient end */
+  --color-gradient-light-start: 59 130 246; /* #3B82F6 - Light blue gradient start */
+  --color-gradient-light-end: 30 64 175;   /* #1E40AF - Deep blue gradient end */
+}
+
+.dark {
+  /* Dark mode overrides - Deep Blue Theme */
+  
+  /* Background & Surface Colors - Deep Blue Tones */
+  --color-background: 2 6 23;          /* #020617 - Deep navy background */
+  --color-surface: 15 23 42;           /* #0F172A - Dark slate surfaces */
+  --color-surface-secondary: 30 41 59; /* #1E293B - Secondary dark surfaces */
+  --color-surface-tertiary: 51 65 85;  /* #334155 - Tertiary dark surfaces */
+  
+  /* Border Colors - Blue-tinted Dark */
+  --color-border: 51 65 85;            /* #334155 - Dark blue borders */
+  --color-border-light: 71 85 105;     /* #475569 - Light dark borders */
+  --color-border-dark: 30 41 59;       /* #1E293B - Darker borders */
+  
+  /* Text Colors - Cool Light Tones */
+  --color-text-primary: 248 250 252;   /* #F8FAFC - Light text */
+  --color-text-secondary: 226 232 240; /* #E2E8F0 - Secondary light text */
+  --color-text-muted: 148 163 184;     /* #94A3B8 - Muted light text */
+  --color-text-light: 100 116 139;     /* #64748B - Light text */
+  --color-text-white: 255 255 255;     /* #FFFFFF - Pure white text */
+  
+  /* Interactive Colors - Blue-tinted Dark */
+  --color-hover: 30 41 59;             /* #1E293B - Dark hover states */
+  --color-active: 51 65 85;             /* #334155 - Dark active states */
+  --color-focus: 59 130 246;           /* #3B82F6 - Blue focus ring */
+  
+  /* Enhanced brand colors for dark mode - Brighter Blues */
+  --color-blood-red: 37 99 235;        /* #2563EB - Bright blue for dark */
+  --color-crimson: 59 130 246;         /* #3B82F6 - Brighter blue accent */
+  --color-copper-orange: 96 165 250;   /* #60A5FA - Light blue accent */
+}
+
+

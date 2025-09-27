@@ -1,0 +1,51 @@
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithCustomToken, signOut  } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage"; 
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBCazjQDviRzDdfABBMMBSL1l2xhyW53nw",
+  authDomain: "urekai-e8521.firebaseapp.com",
+  projectId: "urekai-e8521",
+  // storageBucket: "urekai-e8521.firebasestorage.app",
+  storageBucket: "urekai-e8521.appspot.com",
+  messagingSenderId: "26053361262",
+  appId: "1:26053361262:web:a0dbb5cf498aadf23b307f",
+  measurementId: "G-585H06KLXG"
+};
+
+// Initializing Firebase
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+
+export const firebaseClient =  {
+  firebaseSignIn: async (firebaseCustomToken: string) => {
+    try {
+      await signInWithCustomToken(auth, firebaseCustomToken);
+      return getCurrentUID();
+    } catch (error) {
+      console.error("Firebase sign-in failed:", error);
+      throw error;
+    }
+  },
+  firebaseSignOut: async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error signing out:", error);
+      throw error;
+    }
+  },
+}
+
+export const getCurrentUID = () => {
+  const uid = auth.currentUser?.uid ?? null;
+  if (!uid) {
+    console.log("UID is not defined");
+    throw new Error("User not authenticated");
+  }
+  return uid;
+};
+
