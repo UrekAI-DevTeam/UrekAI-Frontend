@@ -16,6 +16,9 @@ const nextConfig = {
     NEXT_PUBLIC_SHOPIFY_API_KEY: process.env.NEXT_PUBLIC_SHOPIFY_API_KEY,
     NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://urekaibackendpython.onrender.com',
   },
+  images: {
+    domains: ["lh3.googleusercontent.com"],
+  },
   async rewrites() {
     return [
       {

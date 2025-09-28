@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { Footer } from './Footer';
+import { Footer } from '@/components/shared/Footer';
 
 export const ConditionalFooter: React.FC = () => {
   const rawPathname = usePathname();

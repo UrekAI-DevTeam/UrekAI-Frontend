@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { Sidebar } from '@/features/designerui/sidebar';
-import { SidebarBody, SidebarLink } from '@/features/designerui/sidebar';
+import { Sidebar } from '@/components/shared/Sidebar';
+import { SidebarBody, SidebarLink } from '@/components/shared/Sidebar';
 import { useAuthStore } from '@/state/authStore';
 import { sessionManager } from '@/utils/sessionManager';
 import { Home as HomeIcon, BarChart3, MessageSquare, FolderOpen, Brain, User as UserIcon, Settings as SettingsIcon, Menu, X, LogOut } from 'lucide-react';
@@ -16,9 +16,9 @@ const LogoutButton = ({ onClick }: { onClick: () => void }) => {
       className="w-full flex items-center group/sidebar py-2 px-3 rounded-lg hover:bg-interactive-hover hover:shadow-sm transition-all duration-200 text-text-secondary hover:text-text-primary justify-center md:justify-start gap-0 md:gap-2"
     >
       <LogOut className="h-5 w-5 flex-shrink-0 text-text-muted group-hover/sidebar:text-primary transition-colors duration-200" />
-      <span className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre hidden md:inline-block">
+      {/* <span className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre hidden md:inline-block">
         Logout
-      </span>
+      </span> */}
     </button>
   );
 };

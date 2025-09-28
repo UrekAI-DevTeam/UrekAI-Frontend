@@ -2,7 +2,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/ui/Button';
+import { Button } from '@/components/ui/Button';
 
 export const BackButton: React.FC<{ label?: string }>= ({ label = 'Back' }) => {
   const router = useRouter();
