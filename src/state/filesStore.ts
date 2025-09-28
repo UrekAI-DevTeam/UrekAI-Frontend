@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 // import { persist } from 'zustand/middleware';
-import { UploadedFile, AttachedFile } from '../types';
+import { UploadedFile, AttachedFile } from '@/types';
 import { useChatStore } from './chatStore';
 // import { getCurrentUID } from '../components/firebase/FirebaseClient';
 import { saveUploadedFile, fetchUploadedFiles, deleteUploadedFiles } from '@/utils/firebase/firebasefiles';

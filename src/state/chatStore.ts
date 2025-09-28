@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Message, UploadedFile, AttachedFile } from '../types';
+import { Message, UploadedFile, AttachedFile } from '@/types';
 import {
   saveChat,
   fetchChats,

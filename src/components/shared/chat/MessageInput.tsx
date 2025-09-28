@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from 'react';
 import { Send, Paperclip, Upload, Database, Plus } from 'lucide-react';
-import { Button } from '@/ui/Button';
-import { Input } from '@/ui/Input';
-import { UploadedFile } from '../../types';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { UploadedFile } from '@/types';
 import { AttachmentPopup } from './AttachmentPopup';
 
 interface MessageInputProps {

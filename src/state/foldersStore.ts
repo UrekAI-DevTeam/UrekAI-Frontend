@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Folder } from '../types';
+import { Folder } from '@/types';
 import {
   saveFolder,
   deleteFolder,

@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
-import { Button } from '@/ui/Button';
-import { Input } from '@/ui/Input';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 
 interface CreateItemModalProps {
   isOpen: boolean;

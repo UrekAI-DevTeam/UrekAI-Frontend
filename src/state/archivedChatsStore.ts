@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Message, AttachedFile } from '../types';
+import { Message, AttachedFile } from '@/types';
 
 export interface ArchivedChat {
   id: string;

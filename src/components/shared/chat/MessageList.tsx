@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
 import { Message } from './Message';
-import { Message as MessageType } from '../../types';
+import { Message as MessageType } from '@/types';
 import { Brain, Upload, FileText } from "lucide-react"
 
 interface MessageListProps {

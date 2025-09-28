@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, FileSpreadsheet, Database, File } from 'lucide-react';
-import { UploadedFile } from '../../types';
+import { UploadedFile } from '@/types';
 
 interface UploadingFileBadgeProps {
   file: UploadedFile;

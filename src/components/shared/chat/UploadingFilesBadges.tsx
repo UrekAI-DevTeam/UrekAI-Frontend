@@ -1,5 +1,5 @@
 import React from 'react';
-import { UploadedFile } from '../../types';
+import { UploadedFile } from '@/types';
 import { UploadingFileBadge } from './UploadingFileBadge';
 
 interface UploadingFilesBadgesProps {

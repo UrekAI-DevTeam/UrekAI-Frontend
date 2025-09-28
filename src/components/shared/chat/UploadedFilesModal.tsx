@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { X, FileText, Trash2, FileSpreadsheet, Database, File } from 'lucide-react';
-import { Button } from '@/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { useFilesStore } from '@/state/filesStore';
 import { dataAPI } from '@/services/api';
 import { useChatStore } from '@/state/chatStore';

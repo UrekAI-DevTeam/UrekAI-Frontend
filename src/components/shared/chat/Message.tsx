@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Brain, User } from 'lucide-react';
-import { Message as MessageType } from '../../types';
+import { Message as MessageType } from '@/types';
 import { AnalysisResponse } from "./AnalysisResponse";
 
 interface MessageProps {
