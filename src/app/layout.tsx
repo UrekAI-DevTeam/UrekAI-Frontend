@@ -3,6 +3,7 @@ import './global.css'
 import Providers from './providers';
 import { ConditionalFooter } from '@/layouts/ConditionalFooter';
 import '@/styles/theme.css';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
   title: 'UrekAI - Intelligent Business Analysis',
@@ -24,7 +25,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        
         <meta httpEquiv="Cross-Origin-Opener-Policy" content="unsafe-none" />
         <meta httpEquiv="Cross-Origin-Embedder-Policy" content="unsafe-none" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,6 +53,8 @@ export default function RootLayout({
           {children}
           <ConditionalFooter />
         </Providers>
+        {/* Vercel Speed Insights */}
+        <SpeedInsights />
       </body>
     </html>
   );
