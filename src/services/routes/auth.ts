@@ -68,14 +68,42 @@ export async function postGoogleAuth(request: NextRequest) {
     }
 
     const data = await response.json();
+
+    // Normalize the payload to always include { id, email, name, picture }
+    const base: any = data?.user ?? data ?? {};
+
+    // Try common photo fields from backend
+    let picture: string | undefined =
+      base.picture || base.avatar || base.avatar_url || base.photoURL || base.photo_url || base.image;
+
+    // If missing and we have an access token, enrich from Google userinfo
+    if (!picture && accessToken) {
+      try {
+        const gi = await fetch('https://openidconnect.googleapis.com/v1/userinfo', {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        if (gi.ok) {
+          const gu = await gi.json();
+          if (gu?.picture) picture = String(gu.picture);
+        }
+      } catch {}
+    }
+
+    const normalized = {
+      id: String(base.id ?? base.sub ?? ''),
+      email: String(base.email ?? ''),
+      name: String(base.name ?? base.given_name ?? base.preferred_username ?? 'Google User'),
+      picture: picture ? String(picture) : '',
+    };
+
     const cookies = response.headers.get('set-cookie');
     if (cookies) {
-      const responseWithCookies = NextResponse.json(data);
+      const responseWithCookies = NextResponse.json(normalized);
       responseWithCookies.headers.set('set-cookie', cookies);
       return responseWithCookies;
     }
 
-    return NextResponse.json(data);
+    return NextResponse.json(normalized);
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

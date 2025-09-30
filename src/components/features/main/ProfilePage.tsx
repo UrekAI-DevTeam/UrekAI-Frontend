@@ -109,7 +109,7 @@ export function ProfilePage() {
               <div className="flex items-start gap-6">
                 {/* Avatar */}
                 <div className="relative">
-                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blood-red to-crimson flex items-center justify-center text-2xl font-bold text-text-white shadow-lg overflow-hidden">
+                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blood-red to-crimson flex items-center justify-center text-2xl font-bold text-text-white shadow-lg overflow-hidden ring-1 ring-white/20">
                     {authUser?.avatar && !avatarError ? (
                       <Image 
                         src={authUser.avatar}
@@ -122,7 +122,7 @@ export function ProfilePage() {
                         onError={() => setAvatarError(true)}
                       />
                     ) : (
-                      <span>{initial}</span>
+                      <span className="tracking-wide">{initial}</span>
                     )}
                   </div>
                   {isEditing && (

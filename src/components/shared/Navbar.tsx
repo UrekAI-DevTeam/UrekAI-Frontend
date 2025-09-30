@@ -92,12 +92,12 @@ export const Navbar: React.FC = () => {
                 <button 
                   onClick={handleProfileClick}
                   aria-label="Open profile"
-                  className="relative inline-flex items-center justify-center h-9 w-9 rounded-full overflow-hidden bg-gradient-primary text-white hover:opacity-90 transition-all duration-200"
+                  className="relative inline-flex items-center justify-center h-9 w-9 rounded-full overflow-hidden bg-gradient-primary text-white shadow-sm ring-1 ring-white/20 hover:ring-white/40 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 transition-all duration-200"
                 >
                   {user.avatar && !avatarError ? (
                     <Image src={user.avatar} alt={displayName} width={36} height={36} className="object-cover" sizes="36px" referrerPolicy="no-referrer" onError={() => setAvatarError(true)} />
                   ) : (
-                    <span className="text-sm font-semibold">{initial}</span>
+                    <span className="text-sm font-semibold tracking-wide">{initial}</span>
                   )}
                 </button>
               ) : (
@@ -160,12 +160,12 @@ export const Navbar: React.FC = () => {
                   <button 
                     onClick={handleProfileClick}
                     aria-label="Open profile"
-                    className="relative inline-flex items-center justify-center h-9 w-9 rounded-full overflow-hidden bg-gradient-primary text-white hover:opacity-90 transition-all duration-200 self-center"
+                    className="relative inline-flex items-center justify-center h-9 w-9 rounded-full overflow-hidden bg-gradient-primary text-white shadow-sm ring-1 ring-white/20 hover:ring-white/40 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 transition-all duration-200 self-center"
                   >
                     {user.avatar && !avatarError ? (
                       <Image src={user.avatar} alt={displayName} width={36} height={36} className="object-cover" sizes="36px" referrerPolicy="no-referrer" onError={() => setAvatarError(true)} />
                     ) : (
-                      <span className="text-sm font-semibold">{initial}</span>
+                      <span className="text-sm font-semibold tracking-wide">{initial}</span>
                     )}
                   </button>
                 ) : (

@@ -294,7 +294,7 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
                   label: (displayName || 'Account'), 
                   href: '/profile', 
                   icon: (
-                    <span className="relative inline-flex items-center justify-center h-7 w-7 rounded-full overflow-hidden bg-gradient-primary text-white shadow-sm">
+                    <span className="relative inline-flex items-center justify-center h-7 w-7 rounded-full overflow-hidden bg-gradient-primary text-white shadow-sm ring-1 ring-white/20">
                       {user?.avatar && !avatarError ? (
                         <Image 
                           src={user.avatar}
@@ -307,7 +307,7 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
                           onError={() => setAvatarError(true)}
                         />
                       ) : (
-                        <span className="text-xs font-semibold">{initial}</span>
+                        <span className="text-xs font-semibold tracking-wide">{initial}</span>
                       )}
                     </span>
                   ) 
