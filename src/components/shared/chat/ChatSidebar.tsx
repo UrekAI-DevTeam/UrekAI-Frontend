@@ -34,7 +34,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ onSelectChat, onClose 
               setActiveChat(id);
               onSelectChat?.(id);
             }}
-            className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blood-red to-crimson text-text-white text-sm font-medium shadow-soft hover:shadow-soft-lg transition"
+            className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-white text-sm font-medium shadow-soft hover:bg-primary/90 transition"
           >
             <Plus className="h-4 w-4" />
             New Chat

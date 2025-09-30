@@ -90,7 +90,7 @@ export function ProfilePage() {
         <h1 className="text-3xl font-bold text-text-primary">Profile</h1>
         <Button 
           onClick={() => setIsEditing(!isEditing)}
-          className="bg-gradient-to-r from-blood-red to-crimson text-text-white gap-2 hover:shadow-lg hover:shadow-blood-red/20"
+          className="bg-primary text-white gap-2 hover:bg-primary/90"
         >
           <Edit3 className="w-4 h-4" />
           {isEditing ? 'Cancel' : 'Edit Profile'}
@@ -237,8 +237,8 @@ export function ProfilePage() {
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Plan</p>
                   <div className="flex items-center gap-2">
-                    <p className="font-medium text-gray-900 dark:text-white">Pro Plan</p>
-                    <Badge className="bg-gradient-to-r from-blood-red to-crimson text-gray-900 dark:text-white">Active</Badge>
+                  <p className="font-medium text-gray-900 dark:text-white">Pro Plan</p>
+                    <Badge className="bg-primary/10 text-primary border border-primary/20">Active</Badge>
                   </div>
                 </div>
               </div>
@@ -277,7 +277,7 @@ export function ProfilePage() {
 
       {/* Stats + Manage Subscription */}
       <div className="grid lg:grid-cols-2 gap-6">
-        <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
+        <Card className="border-0 shadow-lg bg-surface backdrop-blur-xl rounded-2xl border border-border">
           <CardHeader>
             <CardTitle className="text-gray-900 dark:text-white">Your Statistics</CardTitle>
             <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Track your usage and productivity metrics</CardDescription>
@@ -312,12 +312,12 @@ export function ProfilePage() {
                   <span className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Credits Remaining</span>
                   <span className="text-sm font-medium text-gray-900 dark:text-white">72 / 100</span>
                 </div>
-                <div className="w-full h-3 rounded-full bg-white/10 overflow-hidden border border-white/20">
-                  <div className="h-full w-[72%] bg-gradient-to-r from-blood-red to-crimson"></div>
+                <div className="w-full h-3 rounded-full bg-muted overflow-hidden border border-border">
+                  <div className="h-full w-[72%] bg-primary"></div>
                 </div>
               </div>
               <a href="/pricing">
-                <Button className="w-full bg-gradient-to-r from-blood-red to-crimson text-white">Add Credits</Button>
+                <Button className="w-full bg-primary text-white hover:bg-primary/90 mt-2">Add Credits</Button>
               </a>
             </div>
           </CardContent>

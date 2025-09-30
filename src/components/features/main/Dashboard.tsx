@@ -207,7 +207,7 @@ export const Dashboard: React.FC = () => {
                     </div>
                     <span className="text-xs text-text-muted">Daily</span>
                   </div>
-                  <TinyLineChart data={[42,48,46,52,58,61,67,64,70,73]} stroke="#b91c1c" fill="#b91c1c" />
+                  <TinyLineChart data={[42,48,46,52,58,61,67,64,70,73]} stroke="#2563eb" fill="#2563eb" />
                   <div className="mt-2 text-xs text-text-muted">
                     <span className="font-medium text-success">Trending Up</span>
                     <div className="mt-1">Highlighted Text Rest of the insight</div>
@@ -224,7 +224,7 @@ export const Dashboard: React.FC = () => {
                     </div>
                     <span className="text-xs text-text-muted">Daily</span>
                   </div>
-                  <TinyLineChart data={[60,58,57,55,54,52,50,49,48,47]} stroke="#dc2626" fill="#dc2626" />
+                  <TinyLineChart data={[60,58,57,55,54,52,50,49,48,47]} stroke="#2563eb" fill="#2563eb" />
                   <div className="mt-2 text-xs text-text-muted">
                     <span className="font-medium text-error">Trending Down</span>
                     <div className="mt-1">Highlighted Text Rest of the insight</div>
@@ -403,12 +403,6 @@ const TemplatesCarousel: React.FC = () => {
             {templates.map((t, i) => (
               <div key={i} className="min-w-[240px] max-w-[240px]">
                 <div className="p-4 rounded-xl border border-border bg-background-surface-secondary hover:bg-interactive-hover transition">
-                  <div className="w-full h-20 bg-gradient-to-br from-background-surface-tertiary to-border-light rounded-lg mb-3 flex items-center justify-center">
-                    <div className="text-xs text-text-muted text-center">
-                      <div className="font-medium">Customer churn dashboard</div>
-                      <div className="text-xs">with monthly trends</div>
-                    </div>
-                  </div>
                   <div className="text-sm font-semibold text-text-primary line-clamp-1">{t.title}</div>
                   <div className="text-xs text-text-muted mt-1 line-clamp-2">{t.desc}</div>
                   <div className="mt-3">
@@ -439,7 +433,7 @@ const InsightsAlerts: React.FC = () => {
 
   return (
     <Card>
-      <CardHeader className="pb-3">
+              <CardHeader className="pb-3 bg-background-surface">
         <CardTitle className="text-lg font-semibold text-text-primary">Insights Alerts</CardTitle>
         <CardDescription className="text-sm text-text-muted">Get notified when new insight reports are ready</CardDescription>
       </CardHeader>
