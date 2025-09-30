@@ -29,18 +29,18 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
     flow: 'implicit',
     onSuccess: async (tokenResponse: TokenResponse) => {
       try {
-        console.log('Google access token received successfully');
+        if (process.env.NODE_ENV !== 'production') console.log('Google access token received successfully');
         await googleLogin(tokenResponse.access_token);
-        console.log('Google login completed, closing modal and redirecting...');
+        if (process.env.NODE_ENV !== 'production') console.log('Google login completed, closing modal and redirecting...');
         onClose();
-        console.log('Modal closed, waiting for auth state to update...');
+        if (process.env.NODE_ENV !== 'production') console.log('Modal closed, waiting for auth state to update...');
         setTimeout(() => {
-          console.log('Pushing to dashboard...');
+          if (process.env.NODE_ENV !== 'production') console.log('Pushing to dashboard...');
           router.push('/dashboard');
-          console.log('Redirect initiated to dashboard');
+          if (process.env.NODE_ENV !== 'production') console.log('Redirect initiated to dashboard');
         }, 100);
       } catch (error: unknown) {
-        console.error('Google login error:', error);
+        if (process.env.NODE_ENV !== 'production') console.error('Google login error:', error);
         const axiosError = error as AxiosError<FastAPIAuthError>;
         const message =
           axiosError.response?.data?.detail || 'An error occurred. Try again.';
@@ -48,7 +48,7 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
       }
     },
     onError: (error: unknown) => {
-      console.error('Google login error:', error);
+      if (process.env.NODE_ENV !== 'production') console.error('Google login error:', error);
       onError('An error occurred during Google login. Please try again.');
     },
     scope: 'openid email profile',

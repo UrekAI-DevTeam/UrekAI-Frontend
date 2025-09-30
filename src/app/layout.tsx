@@ -1,4 +1,5 @@
 import React from 'react';
+import { Inter } from 'next/font/google'
 import './global.css'
 import Providers from './providers';
 import { ConditionalFooter } from '@/layouts/ConditionalFooter';
@@ -17,6 +18,8 @@ export const viewport = {
   initialScale: 1,
 };
 
+const inter = Inter({ subsets: ['latin'], display: 'swap' });
+
 export default function RootLayout({
   children,
 }: {
@@ -27,12 +30,8 @@ export default function RootLayout({
       <head>
         <meta httpEquiv="Cross-Origin-Opener-Policy" content="unsafe-none" />
         <meta httpEquiv="Cross-Origin-Embedder-Policy" content="unsafe-none" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" 
-          rel="stylesheet" 
-        />
+        <link rel="icon" href="/favicon.svg" sizes="any" />
+        <link rel="manifest" href="/manifest.json" />
         {/* Shopify App Bridge script removed to avoid missing `shop` errors outside embedded context */}
         <script dangerouslySetInnerHTML={{__html: `
           (function() {
@@ -48,7 +47,7 @@ export default function RootLayout({
           })();
         `}} />
       </head>
-      <body className="font-sans">
+      <body className={`font-sans ${inter.className}`}>
         <Providers>
           {children}
           <ConditionalFooter />

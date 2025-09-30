@@ -89,7 +89,7 @@ export const useAuthStore = create<AuthStore>()(
       googleLogin: async (accessToken: string) => {
         set({ isLoading: true });
         try {
-          console.log('Google login: Starting authentication via backend...');
+          if (process.env.NODE_ENV !== 'production') console.log('Google login: Starting authentication via backend...');
 
           // Delegate token exchange and profile fetch to backend to respect CSP
           const response = await fetch('/api/auth/google', {
@@ -128,7 +128,7 @@ export const useAuthStore = create<AuthStore>()(
             timestamp: Date.now()
           });
         } catch (error) {
-          console.error('Google login: Authentication failed:', error);
+          if (process.env.NODE_ENV !== 'production') console.error('Google login: Authentication failed:', error);
           set({ isLoading: false });
           throw error;
         }
@@ -189,20 +189,23 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
 
-      setUser: (user: User | null) => {
-        set({ user, isAuthenticated: !!user });
+      setUser: (nextUser: User | null) => {
+        const prev = get().user;
+        const same = (prev?.id ?? null) === (nextUser?.id ?? null);
+        if (same && get().isAuthenticated === !!nextUser) return;
+
+        set({ user: nextUser, isAuthenticated: !!nextUser });
         
-        if (user) {
-          // Save session when user is set
+        if (nextUser) {
           sessionManager.saveSession({
-            user,
+            user: nextUser,
             isAuthenticated: true,
             isFirebaseAuthenticated: true,
             timestamp: Date.now()
           });
         } else {
-          // Clear session when user is null
-          sessionManager.clearSession();
+          const hasSession = !!sessionManager.loadSession();
+          if (hasSession) sessionManager.clearSession();
         }
       },
       setLoading: (isLoading: boolean) => set({ isLoading }),

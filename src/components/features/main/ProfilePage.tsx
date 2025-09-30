@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from 'react';
+import Image from 'next/image';
+import { useAuthStore } from '@/state/authStore';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -26,6 +28,15 @@ export default ProfilePage;
 
 export function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
+  const { user: authUser } = useAuthStore();
+  const displayName = ((): string => {
+    const fallback = authUser?.email ? authUser.email.split('@')[0] : 'User';
+    if (!authUser?.name) return fallback;
+    if (authUser.name.trim().toLowerCase() === 'google user') return fallback;
+    return authUser.name;
+  })();
+  const initial = (displayName || 'U').charAt(0).toUpperCase();
   const [profileData, setProfileData] = useState({
     name: 'Alex Johnson',
     email: 'alex.johnson@company.com',
@@ -98,8 +109,21 @@ export function ProfilePage() {
               <div className="flex items-start gap-6">
                 {/* Avatar */}
                 <div className="relative">
-                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blood-red to-crimson flex items-center justify-center text-2xl font-bold text-text-white shadow-lg">
-                    AJ
+                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blood-red to-crimson flex items-center justify-center text-2xl font-bold text-text-white shadow-lg overflow-hidden">
+                    {authUser?.avatar && !avatarError ? (
+                      <Image 
+                        src={authUser.avatar}
+                        alt={displayName}
+                        width={96}
+                        height={96}
+                        className="object-cover"
+                        sizes="96px"
+                        referrerPolicy="no-referrer"
+                        onError={() => setAvatarError(true)}
+                      />
+                    ) : (
+                      <span>{initial}</span>
+                    )}
                   </div>
                   {isEditing && (
                     <Button 
@@ -251,56 +275,54 @@ export function ProfilePage() {
         </div>
       </div>
 
-      {/* Stats */}
-      <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
-        <CardHeader>
-          <CardTitle className="text-gray-900 dark:text-white">Your Statistics</CardTitle>
-          <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Track your usage and productivity metrics</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blood-red/20 to-crimson/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                    <Icon className="w-8 h-8 text-blood-red" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">{stat.label}</div>
-                </div>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Recent Activity */}
-      <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
+      {/* Stats + Manage Subscription */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
           <CardHeader>
-            <CardTitle className="text-gray-900 dark:text-white">Recent Activity</CardTitle>
-            <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Your latest actions and interactions</CardDescription>
+            <CardTitle className="text-gray-900 dark:text-white">Your Statistics</CardTitle>
+            <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Track your usage and productivity metrics</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-center gap-4 p-3 rounded-lg bg-white/5">
-                  <div className="w-2 h-2 bg-gradient-to-r from-blood-red to-crimson rounded-full"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{activity.action}</p>
-                    <div className="flex items-center gap-1 mt-1">
-                      <Clock className="w-3 h-3 text-gray-400 dark:text-gray-900 dark:text-white/40" />
-                      <p className="text-xs text-gray-900 dark:text-gray-500 dark:text-white/50">{activity.time}</p>
+            <div className="grid grid-cols-2 gap-6">
+              {stats.map((stat, index) => {
+                const Icon = stat.icon;
+                return (
+                  <div key={index} className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blood-red/20 to-crimson/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                      <Icon className="w-8 h-8 text-blood-red" />
                     </div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">{stat.label}</div>
                   </div>
-                  <Badge variant="secondary" className="text-xs bg-white/10 text-gray-600 dark:text-gray-900 dark:text-white/70 border-white/20">
-                    {activity.type}
-                  </Badge>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </CardContent>
         </Card>
+
+        <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
+          <CardHeader>
+            <CardTitle className="text-gray-900 dark:text-white">Manage Subscription</CardTitle>
+            <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Monitor credits and update plan</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Credits Remaining</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">72 / 100</span>
+                </div>
+                <div className="w-full h-3 rounded-full bg-white/10 overflow-hidden border border-white/20">
+                  <div className="h-full w-[72%] bg-gradient-to-r from-blood-red to-crimson"></div>
+                </div>
+              </div>
+              <a href="/pricing">
+                <Button className="w-full bg-gradient-to-r from-blood-red to-crimson text-white">Add Credits</Button>
+              </a>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

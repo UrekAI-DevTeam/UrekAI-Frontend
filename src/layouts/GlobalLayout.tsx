@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { Sidebar } from '@/components/shared/Sidebar';
 import { SidebarBody, SidebarLink } from '@/components/shared/Sidebar';
@@ -35,9 +36,20 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
   const { user, logout, isAuthenticated, isLoading, checkAuth, setUser } = useAuthStore();
+  const [avatarError, setAvatarError] = useState(false);
 
-  // Debug logging
-  console.log('GlobalLayout render - isLoading:', isLoading, 'isAuthenticated:', isAuthenticated, 'pathname:', pathname, 'hasCheckedAuth:', hasCheckedAuth);
+  const displayName = (() => {
+    const fallback = user?.email ? user.email.split('@')[0] : 'Account';
+    if (!user?.name) return fallback;
+    if (user.name.trim().toLowerCase() === 'google user') return fallback;
+    return user.name;
+  })();
+  const initial = (displayName || 'A').charAt(0).toUpperCase();
+
+  // Debug logging (dev only)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('GlobalLayout render - isLoading:', isLoading, 'isAuthenticated:', isAuthenticated, 'pathname:', pathname, 'hasCheckedAuth:', hasCheckedAuth);
+  }
 
   // Get current page from pathname
   const getCurrentPage = () => {
@@ -71,7 +83,7 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
   // Check authentication on mount
   useEffect(() => {
     if (!hasCheckedAuth) {
-      console.log('GlobalLayout: Checking authentication...');
+      if (process.env.NODE_ENV !== 'production') console.log('GlobalLayout: Checking authentication...');
       setHasCheckedAuth(true);
       // Only check auth if we're not already authenticated
       if (!isAuthenticated) {
@@ -83,19 +95,18 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
   // Listen for cross-tab session changes
   useEffect(() => {
     const unsubscribe = sessionManager.subscribe((sessionData) => {
-      console.log('GlobalLayout: Received session change:', sessionData);
+      if (process.env.NODE_ENV !== 'production') console.log('GlobalLayout: Received session change:', sessionData);
       
-      if (sessionData && sessionData.isAuthenticated) {
-        // Update auth state to match session
-        setUser(sessionData.user);
-      } else {
-        // Clear auth state when session is cleared
-        setUser(null);
-      }
+      const incomingUser = sessionData && sessionData.isAuthenticated ? sessionData.user : null;
+      const currentUser = user;
+      const same = (incomingUser?.id ?? null) === (currentUser?.id ?? null);
+      if (same) return;
+
+      setUser(incomingUser);
     });
 
     return unsubscribe;
-  }, [setUser]);
+  }, [setUser, user]);
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -130,13 +141,25 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
       await logout();
       console.log('Logout: Logout successful, redirecting to landing page...');
       
-      // Force redirect to landing page
-      router.push('/');
-      router.refresh(); // Refresh the page to ensure clean state
+      // Force hard refresh to ensure clean state across client caches
+      if (typeof window !== 'undefined') {
+        window.location.replace('/');
+        // Fallback in case replace doesn't fully reload in some browsers
+        setTimeout(() => {
+          try { window.location.reload(); } catch {}
+        }, 50);
+      } else {
+        router.push('/');
+        router.refresh();
+      }
     } catch (error) {
       console.error('Logout failed:', error);
       // Even if logout fails, redirect to landing page
-      router.push('/');
+      if (typeof window !== 'undefined') {
+        window.location.replace('/');
+      } else {
+        router.push('/');
+      }
     }
   };
 
@@ -161,9 +184,9 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
 
   // Redirect to home if not authenticated
   useEffect(() => {
-    console.log('GlobalLayout: Auth state - isLoading:', isLoading, 'isAuthenticated:', isAuthenticated, 'hasCheckedAuth:', hasCheckedAuth);
+    if (process.env.NODE_ENV !== 'production') console.log('GlobalLayout: Auth state - isLoading:', isLoading, 'isAuthenticated:', isAuthenticated, 'hasCheckedAuth:', hasCheckedAuth);
     if (hasCheckedAuth && !isLoading && !isAuthenticated) {
-      console.log('GlobalLayout: Redirecting to home page...');
+      if (process.env.NODE_ENV !== 'production') console.log('GlobalLayout: Redirecting to home page...');
       router.push('/');
     }
   }, [isLoading, isAuthenticated, hasCheckedAuth, router]);
@@ -175,7 +198,7 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
 
   // Show loading state for authenticated pages
   if (isLoading || (!hasCheckedAuth && !isAuthenticated)) {
-    console.log('GlobalLayout: Showing loading state...', 'isLoading:', isLoading, 'hasCheckedAuth:', hasCheckedAuth, 'isAuthenticated:', isAuthenticated);
+    if (process.env.NODE_ENV !== 'production') console.log('GlobalLayout: Showing loading state...', 'isLoading:', isLoading, 'hasCheckedAuth:', hasCheckedAuth, 'isAuthenticated:', isAuthenticated);
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -268,12 +291,25 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
             <div className="flex-shrink-0 space-y-1 pb-2">
               <SidebarLink 
                 link={{ 
-                  label: (user?.name || 'Account'), 
+                  label: (displayName || 'Account'), 
                   href: '/profile', 
                   icon: (
-                    <div className="h-7 w-7 rounded-full bg-gradient-primary text-text-white flex items-center justify-center text-xs font-semibold shadow-sm">
-                      {(user?.name?.charAt(0) || 'U')}
-                    </div>
+                    <span className="relative inline-flex items-center justify-center h-7 w-7 rounded-full overflow-hidden bg-gradient-primary text-white shadow-sm">
+                      {user?.avatar && !avatarError ? (
+                        <Image 
+                          src={user.avatar}
+                          alt={displayName}
+                          width={28}
+                          height={28}
+                          className="object-cover"
+                          sizes="28px"
+                          referrerPolicy="no-referrer"
+                          onError={() => setAvatarError(true)}
+                        />
+                      ) : (
+                        <span className="text-xs font-semibold">{initial}</span>
+                      )}
+                    </span>
                   ) 
                 }} 
                 data-active={pathname === '/profile'}

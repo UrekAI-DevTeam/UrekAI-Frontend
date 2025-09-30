@@ -138,7 +138,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-background-surface rounded-2xl p-6 sm:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto relative shadow-2xl border border-border">
+      <div className="bg-background-surface rounded-2xl p-6 sm:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto relative shadow-2xl border border-border" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-text-muted hover:text-text-primary"
@@ -147,7 +147,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         </button>
 
         <div className="text-center mb-6">
-          <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-2">
+          <h2 id="auth-modal-title" className="text-xl sm:text-2xl font-semibold text-text-primary mb-2">
             {mode === 'signin' ? 'Welcome back' : 'Create your account'}
           </h2>
           <p className="text-text-muted">
@@ -175,6 +175,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="!pl-10"
                 required
+                autoComplete="name"
               />
             </div>
           )}
@@ -188,6 +189,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               className="!pl-10"
               required
+              autoComplete="email"
             />
           </div>
 
@@ -201,6 +203,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               className="!pl-10"
               error={errors.password}
               required
+              autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
             />
           </div>
 

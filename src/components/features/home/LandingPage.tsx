@@ -80,7 +80,7 @@ export const Landing: React.FC = () => {
           <div className="mb-12">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8">
               <Sparkles className="h-4 w-4 text-red-400 mr-2" />
-              <span className="text-white/90 text-sm font-medium">AI-Powered Business Intelligence</span>
+              <span className="text-white/90 text-sm font-medium">AI-Powered Business Analysis</span>
             </div>
             
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-8 leading-tight">
@@ -99,53 +99,16 @@ export const Landing: React.FC = () => {
           </p>
         </div>
 
-          {/* CTA Section */}
+          {/* CTA Section simplified: single Continue Analysing button */}
           <div className="max-w-2xl mx-auto mb-16">
-            <div className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 p-6 sm:p-8 shadow-2xl">
-            <Input
-              value={messageInput}
-              onChange={(e) => setMessageInput(e.target.value)}
-                placeholder="Ask about your data... 'What are my top products?'"
-                className="text-base sm:text-lg h-12 sm:h-14 mb-6 bg-white/20 border-white/30 text-white placeholder-white/60"
-              />
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                {/* Show profile button if authenticated, otherwise show auth buttons */}
-                {isAuthenticated && user ? (
-                  <Button 
-                    onClick={handleProfileClick} 
-                    className="flex-1 h-12 sm:h-14 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-semibold text-base sm:text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2"
-                  >
-                    {user.avatar ? (
-                      <img 
-                        src={user.avatar} 
-                        alt={user.name}
-                        className="h-5 w-5 rounded-full object-cover"
-                      />
-                    ) : (
-                      <User className="h-5 w-5" />
-                    )}
-                    <span>Welcome back, {user.name}</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </Button>
-                ) : (
-                  <>
-                    <Button 
-                      onClick={handleGetStarted} 
-                      className="flex-1 h-12 sm:h-14 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-semibold text-base sm:text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                      Start Free Trial
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                    <Button 
-                      variant="secondary" 
-                      onClick={handleSignIn} 
-                      className="flex-1 h-14 bg-white/20 hover:bg-white/30 text-white font-semibold text-lg rounded-2xl border border-white/30"
-                    >
-                      Sign In
-                    </Button>
-                  </>
-                )}
-              </div>
+            <div className="text-center">
+              <Button 
+                onClick={isAuthenticated ? () => router.push('/dashboard') : handleSignIn}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Continue Analysing
+                <ArrowRight className="h-5 w-5" />
+              </Button>
             </div>
           </div>
 
@@ -165,15 +128,7 @@ export const Landing: React.FC = () => {
             </div>
           </div>
 
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <button 
-              onClick={scrollToContent}
-              className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300"
-            >
-              <ChevronDown className="h-6 w-6 text-white" />
-            </button>
-          </div>
+          {/* Scroll Indicator removed per request */}
         </div>
       </section>
 
@@ -306,84 +261,7 @@ export const Landing: React.FC = () => {
           </div>
         </section>
 
-        {/* Section 3: Insights That Guide You */}
-        <section className="py-24 px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="flex items-center justify-center space-x-4 mb-8">
-                <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center">
-                  <span className="text-2xl font-bold text-green-600">3️⃣</span>
-                </div>
-                <h2 className="text-4xl font-bold text-gray-900">Insights That Truly Guide You</h2>
-              </div>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Our platform doesn't just crunch numbers — it guides you toward action.
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-8 backdrop-blur-sm border border-green-100">
-                <TrendingUp className="h-12 w-12 text-green-500 mb-6" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Automatic Highlights</h3>
-                <p className="text-gray-600 mb-6">Key metrics, trends, and anomalies presented clearly</p>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Sales performance trends</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Customer behavior patterns</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Revenue anomalies</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-8 backdrop-blur-sm border border-purple-100">
-                <BarChart3 className="h-12 w-12 text-purple-500 mb-6" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Smart Visualizations</h3>
-                <p className="text-gray-600 mb-6">Charts and tables designed to make sense at a glance</p>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Interactive dashboards</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Real-time charts</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Export-ready reports</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-3xl p-8 backdrop-blur-sm border border-orange-100">
-                <Zap className="h-12 w-12 text-orange-500 mb-6" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Smart Alerts</h3>
-                <p className="text-gray-600 mb-6">Low-performing products or inventory thresholds flagged automatically</p>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Inventory alerts</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Performance warnings</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Opportunity alerts</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Section 3 removed per instruction */}
 
         {/* Section 4: Premium Experience */}
         <section className="py-24 px-4 bg-black text-white relative overflow-hidden">

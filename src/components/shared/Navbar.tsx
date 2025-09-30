@@ -15,6 +15,14 @@ export const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
+  const [avatarError, setAvatarError] = useState(false);
+  const displayName = ((): string => {
+    const fallback = user?.email ? user.email.split('@')[0] : 'Account';
+    if (!user?.name) return fallback;
+    if (user.name.trim().toLowerCase() === 'google user') return fallback;
+    return user.name;
+  })();
+  const initial = (displayName || 'A').charAt(0).toUpperCase();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,7 +51,7 @@ export const Navbar: React.FC = () => {
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-background-surface/10 backdrop-blur-xl border-b border-border shadow-lg' 
+          ? 'bg-background-surface/20 backdrop-blur-xl backdrop-saturate-150 shadow-lg' 
           : 'bg-transparent'
       }`}>
         <div className="mx-fit px-4 sm:px-6 lg:px-8">
@@ -81,24 +89,17 @@ export const Navbar: React.FC = () => {
               
               {/* Show profile button if authenticated, otherwise show auth buttons */}
               {isAuthenticated && user ? (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <button 
                   onClick={handleProfileClick}
-                  className="text-text-white/90 hover:text-text-white hover:bg-background-surface/10 border border-border rounded-xl px-6 py-2 font-medium transition-all duration-300 flex items-center space-x-2"
+                  aria-label="Open profile"
+                  className="relative inline-flex items-center justify-center h-9 w-9 rounded-full overflow-hidden bg-gradient-primary text-white hover:opacity-90 transition-all duration-200"
                 >
-                  {user.avatar ? (
-                    <Image 
-                      src={user.avatar} 
-                      alt={user.name}
-                      fill
-                      className="h-4 w-4 rounded-full object-cover"
-                    />
+                  {user.avatar && !avatarError ? (
+                    <Image src={user.avatar} alt={displayName} width={36} height={36} className="object-cover" sizes="36px" referrerPolicy="no-referrer" onError={() => setAvatarError(true)} />
                   ) : (
-                    <User className="h-4 w-4" />
+                    <span className="text-sm font-semibold">{initial}</span>
                   )}
-                  <span>{user.name}</span>
-                </Button>
+                </button>
               ) : (
                 <>
                   <Button 
@@ -156,24 +157,17 @@ export const Navbar: React.FC = () => {
               <div className="flex flex-col space-y-3 pt-4 border-t border-border">
                 {/* Show profile button if authenticated, otherwise show auth buttons */}
                 {isAuthenticated && user ? (
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <button 
                     onClick={handleProfileClick}
-                    className="text-text-white/90 hover:text-text-white hover:bg-background-surface/10 border border-border rounded-xl px-6 py-3 font-medium transition-all duration-300 flex items-center justify-center space-x-2"
+                    aria-label="Open profile"
+                    className="relative inline-flex items-center justify-center h-9 w-9 rounded-full overflow-hidden bg-gradient-primary text-white hover:opacity-90 transition-all duration-200 self-center"
                   >
-                    {user.avatar ? (
-                      <Image 
-                        src={user.avatar} 
-                        alt={user.name}
-                        fill
-                        className="h-4 w-4 rounded-full object-cover"
-                      />
+                    {user.avatar && !avatarError ? (
+                      <Image src={user.avatar} alt={displayName} width={36} height={36} className="object-cover" sizes="36px" referrerPolicy="no-referrer" onError={() => setAvatarError(true)} />
                     ) : (
-                      <User className="h-4 w-4" />
+                      <span className="text-sm font-semibold">{initial}</span>
                     )}
-                    <span>{user.name}</span>
-                  </Button>
+                  </button>
                 ) : (
                   <>
                     <Button 

@@ -14,6 +14,7 @@ export class SessionManager {
   private static instance: SessionManager;
   private sessionKey = 'ureka-session';
   private listeners: Set<(data: SessionData | null) => void> = new Set();
+  private isBroadcasting = false;
 
   private constructor() {
     this.setupStorageListener();
@@ -114,13 +115,19 @@ export class SessionManager {
    * Broadcast session changes to all listeners
    */
   private broadcastSessionChange(data: SessionData | null): void {
-    this.listeners.forEach(listener => {
-      try {
-        listener(data);
-      } catch (error) {
-        console.error('SessionManager: Error in listener', error);
-      }
-    });
+    if (this.isBroadcasting) return;
+    this.isBroadcasting = true;
+    try {
+      this.listeners.forEach(listener => {
+        try {
+          listener(data);
+        } catch (error) {
+          console.error('SessionManager: Error in listener', error);
+        }
+      });
+    } finally {
+      this.isBroadcasting = false;
+    }
   }
 
   /**
