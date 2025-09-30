@@ -1,0 +1,178 @@
+---
+alwaysApply: true
+---
+🔐 Authentication & Security
+
+Always keep users logged in until they log out (no random logouts).
+
+On logout, remove all tokens and cached user data completely.
+
+Never expose tokens, secrets, or personal data in code, logs, or storage.
+
+Always use HTTPS for every request.
+
+Do not send secrets in query strings (URLs).
+
+Refresh expired tokens smoothly, without breaking the session.
+
+⚡ Performance & Speed
+
+Keep page loads fast, especially the first screen.
+
+Load only what’s needed; don’t fetch unnecessary data.
+
+Cache static assets (images, CSS, scripts) to avoid re-downloading.
+
+Avoid calling the same API multiple times without reason.
+
+Navigation between pages should feel instant (no full reloads).
+
+The app should stay fast even if many more users or data are added.
+
+🛡️ Reliability & Error Handling
+
+If backend is slow or down, show loaders, retry buttons, or friendly messages.
+
+Don’t let unexpected data from backend crash the UI.
+
+Handle errors clearly — show messages users can understand.
+
+If a backend feature isn’t available, hide or disable it instead of breaking.
+
+Support flaky/slow internet by retrying or showing “offline” status.
+
+🎨 User Experience (UX)
+
+Input rules (like email, password) should match backend rules.
+
+Always show clear feedback for actions (loading, success, error).
+
+Keep the design and styles consistent across all pages.
+
+The app must work well on desktop, tablet, and mobile.
+
+Use accessible design — keyboard-friendly, screen reader support, readable text.
+
+Show dates and times consistently, in correct formats and time zones.
+
+📋 Maintainability & Safe Practices
+
+Never log private user data — only generic or technical errors.
+
+Make sure frontend does not suddenly break when backend changes (handle versions gracefully).🔐 Authentication & Security
+
+Always keep users logged in until they log out (no random logouts).
+
+On logout, remove all tokens and cached user data completely.
+
+Never expose tokens, secrets, or personal data in code, logs, or storage.
+
+Always use HTTPS for every request.
+
+Do not send secrets in query strings (URLs).
+
+Refresh expired tokens smoothly, without breaking the session.
+
+⚡ Performance & Speed
+
+Keep page loads fast, especially the first screen.
+
+Load only what’s needed; don’t fetch unnecessary data.
+
+Cache static assets (images, CSS, scripts) to avoid re-downloading.
+
+Avoid calling the same API multiple times without reason.
+
+Navigation between pages should feel instant (no full reloads).
+
+The app should stay fast even if many more users or data are added.
+
+🛡️ Reliability & Error Handling
+
+If backend is slow or down, show loaders, retry buttons, or friendly messages.
+
+Don’t let unexpected data from backend crash the UI.
+
+Handle errors clearly — show messages users can understand.
+
+If a backend feature isn’t available, hide or disable it instead of breaking.
+
+Support flaky/slow internet by retrying or showing “offline” status.
+
+🎨 User Experience (UX)
+
+Input rules (like email, password) should match backend rules.
+
+Always show clear feedback for actions (loading, success, error).
+
+Keep the design and styles consistent across all pages.
+
+The app must work well on desktop, tablet, and mobile.
+
+Use accessible design — keyboard-friendly, screen reader support, readable text.
+
+Show dates and times consistently, in correct formats and time zones.
+
+📋 Maintainability & Safe Practices
+
+Never log private user data — only generic or technical errors.
+
+Make sure frontend does not suddenly break when backend changes (handle versions gracefully).🔐 Authentication & Security
+
+Always keep users logged in until they log out (no random logouts).
+
+On logout, remove all tokens and cached user data completely.
+
+Never expose tokens, secrets, or personal data in code, logs, or storage.
+
+Always use HTTPS for every request.
+
+Do not send secrets in query strings (URLs).
+
+Refresh expired tokens smoothly, without breaking the session.
+
+⚡ Performance & Speed
+
+Keep page loads fast, especially the first screen.
+
+Load only what’s needed; don’t fetch unnecessary data.
+
+Cache static assets (images, CSS, scripts) to avoid re-downloading.
+
+Avoid calling the same API multiple times without reason.
+
+Navigation between pages should feel instant (no full reloads).
+
+The app should stay fast even if many more users or data are added.
+
+🛡️ Reliability & Error Handling
+
+If backend is slow or down, show loaders, retry buttons, or friendly messages.
+
+Don’t let unexpected data from backend crash the UI.
+
+Handle errors clearly — show messages users can understand.
+
+If a backend feature isn’t available, hide or disable it instead of breaking.
+
+Support flaky/slow internet by retrying or showing “offline” status.
+
+🎨 User Experience (UX)
+
+Input rules (like email, password) should match backend rules.
+
+Always show clear feedback for actions (loading, success, error).
+
+Keep the design and styles consistent across all pages.
+
+The app must work well on desktop, tablet, and mobile.
+
+Use accessible design — keyboard-friendly, screen reader support, readable text.
+
+Show dates and times consistently, in correct formats and time zones.
+
+📋 Maintainability & Safe Practices
+
+Never log private user data — only generic or technical errors.
+
+Make sure frontend does not suddenly break when backend changes (handle versions gracefully).

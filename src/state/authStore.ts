@@ -89,36 +89,38 @@ export const useAuthStore = create<AuthStore>()(
       googleLogin: async (accessToken: string) => {
         set({ isLoading: true });
         try {
-          console.log('Google login: Starting authentication...');
-          
-          // Fetch user profile from Google API
-          const profileResponse = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`);
-          
-          if (!profileResponse.ok) {
-            throw new Error('Failed to fetch Google profile');
+          console.log('Google login: Starting authentication via backend...');
+
+          // Delegate token exchange and profile fetch to backend to respect CSP
+          const response = await fetch('/api/auth/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ access_token: accessToken, redirect_uri: window.location.origin })
+          });
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || 'Google authentication failed');
           }
-          
-          const profileData = await profileResponse.json();
-          console.log('Google profile data:', profileData);
-          
-          // Create user object from Google profile data
+
+          const data = await response.json();
+          const profile = data?.user || data; // normalize
+
           const googleUser: User = {
-            id: profileData.id || Date.now().toString(),
-            name: profileData.name || profileData.given_name || 'Google User',
-            email: profileData.email || 'user@gmail.com',
-            avatar: profileData.picture,
+            id: profile.id || Date.now().toString(),
+            name: profile.name || profile.given_name || 'Google User',
+            email: profile.email || 'user@gmail.com',
+            avatar: profile.picture,
           };
-          
+
           set({ 
             user: googleUser, 
             isAuthenticated: true, 
             isFirebaseAuthenticated: true,
             isLoading: false 
           });
-          
-          console.log('Google login: Auth state updated with user:', googleUser.name);
-          
-          // Save session and broadcast to other tabs
+
           sessionManager.saveSession({
             user: googleUser,
             isAuthenticated: true,

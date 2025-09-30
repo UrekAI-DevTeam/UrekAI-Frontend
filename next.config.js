@@ -20,14 +20,17 @@ const nextConfig = {
     domains: ["lh3.googleusercontent.com"],
   },
   async rewrites() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://urekaibackendpython.onrender.com';
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://urekaibackendpython.onrender.com';
+    
     return [
       {
         source: '/v1/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/v1/:path*`,
+        destination: `${apiUrl}/v1/:path*`,
       },
       {
         source: '/v2/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/:path*`,
+        destination: `${apiBaseUrl}/v2/:path*`,
       },
     ];
   },
@@ -48,6 +51,32 @@ const nextConfig = {
                 {
                   key: 'Cross-Origin-Resource-Policy',
                   value: 'cross-origin',
+                },
+                // Security headers to prevent data leakage
+                {
+                  key: 'X-Content-Type-Options',
+                  value: 'nosniff',
+                },
+                {
+                  key: 'X-Frame-Options',
+                  value: 'DENY',
+                },
+                {
+                  key: 'X-XSS-Protection',
+                  value: '1; mode=block',
+                },
+                {
+                  key: 'Referrer-Policy',
+                  value: 'strict-origin-when-cross-origin',
+                },
+                {
+                  key: 'Permissions-Policy',
+                  value: 'camera=(), microphone=(), geolocation=()',
+                },
+                // Content Security Policy
+                {
+                  key: 'Content-Security-Policy',
+                  value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://accounts.google.com https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://urekaibackendpython.onrender.com wss://urekaibackendpython.onrender.com https://www.googleapis.com; frame-src 'self' https://accounts.google.com;",
                 },
               ],
             },

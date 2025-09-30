@@ -1,0 +1,77 @@
+---
+description: Helpful for design guidelines
+alwaysApply: false
+---
+🎨 Colors & Theme
+
+Always import colors, spacing, and typography from theme.css — never hardcode values.
+
+If a new color is needed, add it to theme.css before using it anywhere.
+
+Stick to the theme palette for all UI components for visual consistency.
+
+🖼️ Visual Style
+
+The UI must always look crisp and sharp — use SVGs or optimized images (no blurry assets).
+
+Use soft bezels (rounded corners) for all cards, modals, buttons, and inputs.
+
+Maintain consistent spacing (margins, paddings) across the app, driven by tokens in theme.css.
+
+Typography should follow the font family, weights, and sizes defined in theme.css.
+
+Keep layouts clean and minimal — use whitespace for readability and focus.
+
+✨ Animations & Interactions
+
+Use smooth animations (150–300ms) for hover, focus, transitions, and page changes.
+
+Animations should feel natural and comfortable, never jittery or distracting.
+
+Add subtle micro-interactions (button press feedback, dropdown animations, modal transitions).
+
+Page transitions should use fade or slide effects, not abrupt cuts.
+
+Use skeleton loaders or progress indicators for data-heavy views.
+
+🖥️📱 Responsiveness
+
+Desktop-first design — layouts, spacing, and typography should primarily target desktop.
+
+Ensure mobile compatibility — adapt gracefully for smaller screens (no broken layouts).
+
+Respect responsive breakpoints (e.g., sm, md, lg, xl) defined in theme.css.
+
+On mobile, use collapsible menus, stacked layouts, and touch-friendly targets.
+
+Test all key flows on both desktop and mobile before merging.
+
+♿ Accessibility
+
+Ensure strong color contrast for text and UI elements.
+
+All interactive elements must have hover, focus, and active states.
+
+Do not rely on color alone — use icons or text cues for state changes.
+
+Support “reduced motion” settings — disable non-essential animations for sensitive users.
+
+🧩 Components
+
+All common UI elements (buttons, cards, modals, inputs) must follow shared base styles.
+
+Variants (primary, secondary, danger) must be defined in theme.css.
+
+Avoid custom one-off styles — extend existing tokens or components instead.
+
+Shadows, borders, and radii should be consistent across the app.
+
+🛠️ Best Practices
+
+Avoid inline styles unless absolutely necessary for layout — prefer CSS modules, styled components, or classes.
+
+Use relative units (rem, %, vh, vw) instead of fixed pixels for scalability.
+
+Favor grid and flexbox for layouts, avoid manual positioning.
+
+Document new design patterns so the team can reuse them consistently.

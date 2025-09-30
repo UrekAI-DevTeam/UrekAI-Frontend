@@ -55,7 +55,7 @@ export const authAPI = {
   },
 
   signUp: async (name: string, email: string, password: string) => {
-    console.log("Sending sign-up payload:", { name, email, password });
+    console.log("Sending sign-up payload for user:", email);
     // Use the local API route to bypass CORS
     const response = await fetch('/api/auth/signup', {
       method: 'POST',
