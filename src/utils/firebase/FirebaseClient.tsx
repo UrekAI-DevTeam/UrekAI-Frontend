@@ -42,8 +42,8 @@ export const firebaseClient =  {
 export const getCurrentUID = () => {
   const uid = auth.currentUser?.uid ?? null;
   if (!uid) {
-    console.log("UID is not defined");
-    throw new Error("User not authenticated");
+    console.log("UID is not defined - Firebase not authenticated");
+    return null;
   }
   return uid;
 };

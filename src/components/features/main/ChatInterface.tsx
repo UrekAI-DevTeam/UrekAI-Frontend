@@ -156,6 +156,13 @@ export function ChatInterface() {
     const file = files[0];
     const fileId = Date.now().toString();
     
+    // File size validation (10MB limit)
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      alert(`File size too large. Please select a file smaller than 10MB. Current size: ${(file.size / 1024 / 1024).toFixed(1)}MB`);
+      return;
+    }
+    
     // Add to uploading files with initial state
     setUploadingFiles(prev => ({
       ...prev,
@@ -199,11 +206,12 @@ export function ChatInterface() {
         [fileId]: { progress: 0, status: 'failed', fileName: file.name }
       }));
       
-      // Show error message to user
+      // Show specific error message to user
+      const errorText = error instanceof Error ? error.message : `Failed to upload "${file.name}". Please try again.`;
       const errorMessage: Message = {
         id: (Date.now() + 3).toString(),
         type: 'assistant',
-        content: `Failed to upload "${file.name}". Please make sure you're signed in and try again.`,
+        content: errorText,
         timestamp: new Date(),
         status: 'read'
       };

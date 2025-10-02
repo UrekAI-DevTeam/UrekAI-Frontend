@@ -143,8 +143,21 @@ export const dataAPI = {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Upload failed');
+        let errorMessage = 'Upload failed';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || `Upload failed with status ${response.status}`;
+        } catch (parseError) {
+          // If response is not JSON, handle specific status codes
+          if (response.status === 413) {
+            errorMessage = 'File too large. Please select a smaller file (max 10MB).';
+          } else if (response.status === 401) {
+            errorMessage = 'Authentication required. Please sign in again.';
+          } else {
+            errorMessage = `Upload failed with status ${response.status}`;
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();

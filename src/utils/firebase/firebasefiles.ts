@@ -14,6 +14,10 @@ import { UploadedFile, AttachedFile } from '../../types';
 export const saveUploadedFile = async (file: UploadedFile) => {
   try {
     const uid = getCurrentUID();
+    if (!uid) {
+      console.log("Firebase not authenticated, skipping file save");
+      return;
+    }
     const ref = doc(db, `users/${uid}/uploadedFiles/${file.id}`);
     setDoc(ref, file)
     .then(() => {
@@ -24,13 +28,17 @@ export const saveUploadedFile = async (file: UploadedFile) => {
       throw error;
     });
   } catch (error) {
-    console.log(error);
+    console.log("Firebase save failed (user may not be authenticated with Firebase):", error);
   }
 };
 
 export const fetchUploadedFiles = async (): Promise<UploadedFile[]> => {
   try {
     const uid = getCurrentUID();
+    if (!uid) {
+      console.log("Firebase not authenticated, returning empty files array");
+      return [];
+    }
     const colRef = collection(db, `users/${uid}/uploadedFiles`);
     // const snapshot = getDocs(colRef)
     return getDocs(colRef)
@@ -43,7 +51,7 @@ export const fetchUploadedFiles = async (): Promise<UploadedFile[]> => {
       throw error;
     });
   } catch (error) {
-    console.log(error);
+    console.log("Firebase fetch failed (user may not be authenticated with Firebase):", error);
     return [];
   }
 };
@@ -60,6 +68,10 @@ export const fetchUploadedFiles = async (): Promise<UploadedFile[]> => {
 export const deleteUploadedFiles = async (id: string) => {
   try {
     const uid = getCurrentUID();
+    if (!uid) {
+      console.log("Firebase not authenticated, skipping file deletion");
+      return;
+    }
     deleteDoc(doc(db, `users/${uid}/uploadedFiles/${id}`))
     .then(() => {
       console.log("File deleted successfully!");
@@ -69,7 +81,7 @@ export const deleteUploadedFiles = async (id: string) => {
       throw error;
     });
   } catch (error) {
-    console.error(error);
+    console.log("Firebase delete failed (user may not be authenticated with Firebase):", error);
   }
 }
 
