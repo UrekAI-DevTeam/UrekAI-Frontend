@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://urekaibackendpython.onrender.com';
 
 export async function POST(request: NextRequest) {
@@ -13,15 +15,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const formData = await request.formData();
-    
-    // Forward the request to the backend with authentication cookies
+    // Stream the body directly to the backend to support large files
     const response = await fetch(`${API_BASE_URL}/v1/api/data/upload-file`, {
       method: 'POST',
-      body: formData,
+      body: request.body,
       headers: {
         'Cookie': request.headers.get('cookie') || '',
-        // Don't set Content-Type, let fetch set it with boundary
+        'Content-Type': request.headers.get('content-type') || 'application/octet-stream',
       },
       credentials: 'include',
     });

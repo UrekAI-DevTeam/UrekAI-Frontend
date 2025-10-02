@@ -156,10 +156,10 @@ export function ChatInterface() {
     const file = files[0];
     const fileId = Date.now().toString();
     
-    // File size validation (10MB limit)
-    const maxSize = 10 * 1024 * 1024; // 10MB
+    // File size validation (50MB limit)
+    const maxSize = 50 * 1024 * 1024; // 50MB
     if (file.size > maxSize) {
-      alert(`File size too large. Please select a file smaller than 10MB. Current size: ${(file.size / 1024 / 1024).toFixed(1)}MB`);
+      alert(`File size too large. Please select a file smaller than 50MB. Current size: ${(file.size / 1024 / 1024).toFixed(1)}MB`);
       return;
     }
     
