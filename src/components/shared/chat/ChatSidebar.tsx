@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import { ChevronDown, ChevronRight, MessageSquare, FolderOpen, Plus, FileDown } from 'lucide-react';
+import Link from 'next/link';
 import { useChatStore } from '@/state/chatStore';
 import { useFoldersStore } from '@/state/foldersStore';
 
@@ -99,7 +100,11 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ onSelectChat, onClose 
 
       {/* Footer actions */}
       <div className="pt-3 mt-3 border-t border-gray-200 dark:border-white/10">
-        <div className="px-2">
+        <div className="px-2 space-y-2">
+          <Link href="/projects" className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-xl bg-background-surface-secondary/80 backdrop-blur-sm text-text-primary border border-border/40 hover:bg-hover transition shadow-soft">
+            <FolderOpen className="h-4 w-4" />
+            Projects
+          </Link>
           <button
             onClick={() => { /* TODO: wire export later */ }}
             className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-xl bg-white/80 dark:bg-white/10 text-gray-800 dark:text-white border border-gray-200 dark:border-white/15 hover:bg-white dark:hover:bg-white/15 transition shadow-soft"

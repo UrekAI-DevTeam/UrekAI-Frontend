@@ -150,13 +150,22 @@ export const dataAPI = {
         } catch (parseError) {
           // If response is not JSON, handle specific status codes
           if (response.status === 413) {
-            errorMessage = 'File too large. Please select a smaller file (max 10MB).';
+            errorMessage = 'File too large. Please select a smaller file (max 50MB).';
           } else if (response.status === 401) {
             errorMessage = 'Authentication required. Please sign in again.';
+          } else if (response.status === 500) {
+            errorMessage = 'Server error. Please try again later.';
           } else {
-            errorMessage = `Upload failed with status ${response.status}`;
+            // Try to get response text for better error info
+            try {
+              const responseText = await response.text();
+              errorMessage = `Upload failed (${response.status}): ${responseText.substring(0, 100)}`;
+            } catch {
+              errorMessage = `Upload failed with status ${response.status}`;
+            }
           }
         }
+        console.error('Upload error details:', { status: response.status, errorMessage });
         throw new Error(errorMessage);
       }
 

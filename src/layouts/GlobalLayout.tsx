@@ -6,7 +6,7 @@ import { Sidebar } from '@/components/shared/Sidebar';
 import { SidebarBody, SidebarLink } from '@/components/shared/Sidebar';
 import { useAuthStore } from '@/state/authStore';
 import { sessionManager } from '@/utils/sessionManager';
-import { Home as HomeIcon, BarChart3, MessageSquare, FolderOpen, Brain, User as UserIcon, Settings as SettingsIcon, Menu, X, LogOut } from 'lucide-react';
+import { Home as HomeIcon, BarChart3, MessageSquare, FolderOpen, Brain, User as UserIcon, Settings as SettingsIcon, Menu, X, LogOut, FolderOpen as ProjectsIcon } from 'lucide-react';
 // Removed sidebar toggle icons as sidebar auto-expands on hover
 
 // LogoutButton component that adapts to sidebar state
@@ -256,11 +256,11 @@ export default function GlobalLayout({ children }: GlobalLayoutProps) {
                 />
                 <SidebarLink 
                   link={{ 
-                    label: 'Folders', 
-                    href: '/folders', 
-                    icon: <FolderOpen className="h-5 w-5" /> 
+                    label: 'Projects', 
+                    href: '/projects', 
+                    icon: <ProjectsIcon className="h-5 w-5" /> 
                   }} 
-                  data-active={pathname === '/folders'}
+                  data-active={pathname === '/projects'}
                 />
                 <SidebarLink 
                   link={{ 

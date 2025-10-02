@@ -156,6 +156,24 @@ export function ChatInterface() {
     const file = files[0];
     const fileId = Date.now().toString();
     
+    // Check authentication first
+    try {
+      const authResponse = await fetch('/api/auth/status', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      const authData = await authResponse.json();
+      
+      if (!authData.authenticated) {
+        alert('Please sign in to upload files.');
+        return;
+      }
+    } catch (error) {
+      console.error('Auth check failed:', error);
+      alert('Authentication check failed. Please try signing in again.');
+      return;
+    }
+    
     // File size validation (50MB limit)
     const maxSize = 50 * 1024 * 1024; // 50MB
     if (file.size > maxSize) {
@@ -742,18 +760,17 @@ export function ChatInterface() {
                   className="flex-1 bg-transparent outline-none text-sm placeholder-text-muted"
                 />
                 <div className="flex items-center gap-1 ml-2">
-                  <Button 
+                  <button 
                     onClick={handleSendMessage}
                     disabled={!message.trim()}
-                    size="sm"
-                    className={`w-9 h-9 rounded-full transition-all duration-200 ${
+                    className={`w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center shadow-lg ${
                       message.trim() 
-                        ? 'bg-primary hover:bg-primary/90 text-text-white' 
-                        : 'bg-surface-secondary text-text-muted cursor-not-allowed'
+                        ? 'bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white backdrop-blur-sm border border-primary/30 shadow-primary/20 hover:shadow-primary/30 hover:scale-105' 
+                        : 'bg-surface-secondary/60 text-text-muted cursor-not-allowed backdrop-blur-sm border border-border/40 shadow-sm'
                     }`}
                   >
                     <Send className="w-4 h-4" />
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div>
