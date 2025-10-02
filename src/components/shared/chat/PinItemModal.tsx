@@ -71,8 +71,8 @@ export const PinItemModal: React.FC<PinItemModalProps> = ({ open, onClose, onSel
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <Card className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-background-surface border border-border rounded-2xl shadow-xl">
-        <CardHeader className="p-6 border-b border-border bg-background-surface">
+      <Card className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-surface border border-border rounded-2xl shadow-xl">
+        <CardHeader className="p-6 border-b border-border bg-surface">
           <div className="flex items-center gap-2">
             {step === 'select' && (
               <button onClick={handleBack} className="p-2 rounded-lg hover:bg-interactive-hover transition">

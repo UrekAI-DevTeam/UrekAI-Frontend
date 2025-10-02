@@ -161,7 +161,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ chat, folder }) => {
     try {
       setIsLoading(true);
       addMessage(chat.id, aiThinkingProcess);
-      const response = await chatAPI.query(content, chat.id);
+      const response = await chatAPI.query(content, [], chat.id);
       deleteMessage(chat.id, aiThinkingProcess.id);
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),

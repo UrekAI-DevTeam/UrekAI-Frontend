@@ -34,7 +34,13 @@ export const useFilesStore = create<FilesStore>()(
         set((state) => ({
           uploadedFiles: [...state.uploadedFiles, file],
         }));
-        await saveUploadedFile(file);
+        // Try to save to Firebase, but don't fail if not authenticated
+        try {
+          await saveUploadedFile(file);
+        } catch (error) {
+          console.log('Firebase save failed (user may not be authenticated with Firebase):', error);
+          // Continue without Firebase - file is still stored in local state
+        }
       },
 
       updateUploadedFile: async (id, updates) => {
@@ -58,7 +64,11 @@ export const useFilesStore = create<FilesStore>()(
               )
             : state.attachedFiles,
           };
-          deleteUploadedFiles(id);
+          try {
+            deleteUploadedFiles(id);
+          } catch (error) {
+            console.log('Firebase delete failed:', error);
+          }
           // Call the callback to notify about file removal
           if (removeFromChats && onFileRemovedFromChats) {
             onFileRemovedFromChats(id);

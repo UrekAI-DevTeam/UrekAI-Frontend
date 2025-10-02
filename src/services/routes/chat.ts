@@ -5,7 +5,7 @@ const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://urekaibackendpyth
 export async function postChatQuery(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userQuery, chatId } = body;
+    const { userQuery, attachedFiles = [], chatId } = body;
     if (!userQuery) {
       return NextResponse.json({ error: 'User query is required' }, { status: 400 });
     }
@@ -17,7 +17,7 @@ export async function postChatQuery(request: NextRequest) {
         'Cookie': request.headers.get('cookie') || '',
       },
       credentials: 'include',
-      body: JSON.stringify({ userQuery, chatId }),
+      body: JSON.stringify({ userQuery, attachedFiles, chatId }),
     });
     if (!response.ok) {
       const errorText = await response.text();

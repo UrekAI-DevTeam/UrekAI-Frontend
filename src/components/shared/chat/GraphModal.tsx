@@ -108,17 +108,17 @@ export const GraphModal: React.FC<GraphModalProps> = ({ isOpen, onClose, graphDa
   const secondaryGraphs = Object.entries(graphData).filter(([, graph]) => graph.graph_category === 'secondary');
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl max-w-7xl w-full mx-4 max-h-[90vh] flex flex-col shadow-lg">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-surface border border-border rounded-xl max-w-7xl w-full mx-4 max-h-[90vh] flex flex-col shadow-lg">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-border">
           <div className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-semibold text-gray-900">Data Visualizations</h2>
+            <h2 className="text-xl font-semibold text-text-primary">Data Visualizations</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 text-text-muted hover:text-text-primary hover:bg-hover rounded-lg transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
@@ -129,8 +129,8 @@ export const GraphModal: React.FC<GraphModalProps> = ({ isOpen, onClose, graphDa
           <div className="space-y-8">
             {/* Primary Graphs */}
             {primaryGraphs.map(([key, graphData]) => (
-              <div key={key} className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <div key={key} className="bg-background-surface-secondary border border-border rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-text-primary mb-4">
                   {key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                 </h3>
                 {renderChart(key, graphData)}
@@ -141,8 +141,8 @@ export const GraphModal: React.FC<GraphModalProps> = ({ isOpen, onClose, graphDa
             {secondaryGraphs.length > 0 && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {secondaryGraphs.map(([key, graphData]) => (
-                  <div key={key} className="bg-gray-50 border border-gray-200 rounded-xl p-4">
-                    <h3 className="text-base font-medium text-gray-900 mb-3">
+                  <div key={key} className="bg-background-surface-secondary border border-border rounded-xl p-4">
+                    <h3 className="text-base font-medium text-text-primary mb-3">
                       {key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                     </h3>
                     {renderChart(key, graphData)}
@@ -154,10 +154,10 @@ export const GraphModal: React.FC<GraphModalProps> = ({ isOpen, onClose, graphDa
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-200">
+        <div className="p-6 border-t border-border">
           <button
             onClick={onClose}
-            className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors"
+            className="w-full bg-hover hover:bg-active text-text-primary font-medium py-2 px-4 rounded-lg transition-colors"
           >
             Close
           </button>

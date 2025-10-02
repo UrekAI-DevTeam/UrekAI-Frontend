@@ -132,33 +132,55 @@ export const authAPI = {
 
 export const dataAPI = {
   uploadFile: async (file: File) => {
-    const formData = new FormData();
-    formData.append('files', file);
-    const response = await api.post('/v1/api/data/upload-file', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    // Normalize response shape
-    const data = response.data;
-    if (data?.success && Array.isArray(data.results) && data.results[0]) {
-      return {
-        success: true,
-        uploadId: data.results[0].uploadId,
-        originalFileName: data.results[0].originalFileName,
-      } as const;
+    try {
+      const formData = new FormData();
+      formData.append('files', file);
+      
+      const response = await fetch('/api/data/upload-file', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
+      }
+
+      const data = await response.json();
+      
+      // Normalize response shape
+      if (data?.success && Array.isArray(data.results) && data.results[0]) {
+        return {
+          success: true,
+          uploadId: data.results[0].uploadId,
+          originalFileName: data.results[0].originalFileName,
+        } as const;
+      }
+      return { success: false } as const;
+    } catch (error) {
+      console.error('File upload error:', error);
+      throw error;
     }
-    return { success: false } as const;
   },
 
   getUploadStatus: async (upload_id: string, extension: string) => {
     try {
-      const response = await api.get('/v1/api/data/upload-status', {
-        params: {
-          upload_id,
-          extension
-        },
-        timeout: 10000, // 10 second timeout
-      });
-      const data = response.data;
+      const response = await fetch(
+        `/api/data/upload-status?upload_id=${upload_id}&extension=${extension}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Status check failed');
+      }
+
+      const data = await response.json();
+      
       // Possible shapes:
       // { success: true, message: { progress, status } }
       // { success: true, message: 'Job not found.' }
@@ -183,19 +205,37 @@ export const dataAPI = {
       return { success: false } as const;
     } catch (error) {
       console.error('Upload status API error:', error);
-      // Re-throw the error so the calling code can handle it appropriately
       throw error;
     }
   },
 
   deleteFile: async (uploadId: string) => {
-    const response = await api.post('/v1/api/data/upload-remove', { uploadId });
-    return response.data;
+    try {
+      const response = await fetch('/api/data/delete-file', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ uploadId }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Delete failed');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('File deletion error:', error);
+      throw error;
+    }
   },
 };
 
 export const chatAPI = {
-  query: async (userQuery: string, chatId?: string) => {
+  query: async (userQuery: string, attachedFiles?: any[], chatId?: string) => {
     try {
       // Use the local API route to bypass CORS
       const response = await fetch('/api/chat/query', {
@@ -204,7 +244,11 @@ export const chatAPI = {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ userQuery, chatId }),
+        body: JSON.stringify({ 
+          userQuery, 
+          attachedFiles: attachedFiles || [], 
+          chatId 
+        }),
       });
 
       if (!response.ok) {
