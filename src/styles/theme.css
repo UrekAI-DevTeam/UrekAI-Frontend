@@ -1,83 +1,503 @@
 :root {
-  /* Deep Blue Premium Palette (R G B) */
-  --color-blood-red: 30 64 175;    /* #1E40AF - Deep royal blue (primary) */
-  --color-dark-red: 30 58 138;     /* #1E3A8A - Darker blue variant */
-  --color-crimson: 37 99 235;      /* #2563EB - Bright blue accent */
-  --color-copper-orange: 59 130 246;/* #3B82F6 - Light blue accent */
+  /* ===========================================
+     ENHANCED COLOR SYSTEM - Premium Design Palette
+     =========================================== */
+  
+  /* Primary Brand Colors - Premium Blue */
+  --color-primary: 30 64 175;        /* #1E40AF - Deep royal blue (primary) */
+  --color-primary-dark: 30 58 138;   /* #1E3A8A - Darker blue variant */
+  --color-primary-light: 37 99 235;  /* #2563EB - Bright blue accent */
+  --color-primary-lighter: 59 130 246; /* #3B82F6 - Light blue accent */
+  --color-primary-lightest: 96 165 250; /* #60A5FA - Lightest blue accent */
 
-  /* Neutral Colors - Cool Slate Tones */
-  --color-almost-black: 15 23 42;  /* #0F172A - Deep slate dark */
-  --color-smoky-gray: 51 65 85;    /* #334155 - Slate gray */
-  --color-charcoal: 71 85 105;     /* #475569 - Medium slate */
-  --color-slate-gray: 100 116 139; /* #64748B - Light slate */
-  --color-light-gray: 148 163 184; /* #94A3B8 - Very light slate */
+  /* Legacy color mappings for backward compatibility */
+  --color-blood-red: var(--color-primary);
+  --color-dark-red: var(--color-primary-dark);
+  --color-crimson: var(--color-primary-light);
+  --color-copper-orange: var(--color-primary-lighter);
 
-  /* Background & Surface Colors - Cool Whites */
-  --color-background: 248 250 252; /* #F8FAFC - Cool white background */
-  --color-surface: 255 255 255;    /* #FFFFFF - Pure white surfaces */
-  --color-surface-secondary: 241 245 249; /* #F1F5F9 - Cool secondary surfaces */
-  --color-surface-tertiary: 226 232 240;  /* #E2E8F0 - Cool tertiary surfaces */
+  /* ===========================================
+     WHITE SHADES - 5 Levels of Lightness
+     =========================================== */
   
-  /* Border Colors - Cool Grays */
-  --color-border: 226 232 240;     /* #E2E8F0 - Cool borders */
-  --color-border-light: 241 245 249; /* #F1F5F9 - Light cool borders */
-  --color-border-dark: 203 213 225; /* #CBD5E1 - Dark cool borders */
+  /* White Shades - From pure white to subtle gray */
+  --color-white-1: 255 255 255;      /* #FFFFFF - Pure white (highest priority) */
+  --color-white-2: 252 252 253;      /* #FCFCFD - Off-white (high priority) */
+  --color-white-3: 248 250 252;      /* #F8FAFC - Light gray-white (medium priority) */
+  --color-white-4: 241 245 249;      /* #F1F5F9 - Soft gray-white (low priority) */
+  --color-white-5: 226 232 240;      /* #E2E8F0 - Muted gray-white (background) */
+
+  /* ===========================================
+     DARK SHADES - 5 Levels of Darkness
+     =========================================== */
   
-  /* Text Colors - Slate Tones */
-  --color-text-primary: 15 23 42;  /* #0F172A - Deep slate text */
-  --color-text-secondary: 51 65 85; /* #334155 - Slate secondary text */
-  --color-text-muted: 100 116 139; /* #64748B - Slate muted text */
-  --color-text-light: 148 163 184; /* #94A3B8 - Light slate text */
-  --color-text-white: 255 255 255; /* #FFFFFF - White text */
+  /* Dark Shades - From deep black to light gray */
+  --color-dark-1: 15 23 42;          /* #0F172A - Deep slate (highest priority) */
+  --color-dark-2: 30 41 59;          /* #1E293B - Dark slate (high priority) */
+  --color-dark-3: 51 65 85;          /* #334155 - Medium slate (medium priority) */
+  --color-dark-4: 71 85 105;         /* #475569 - Light slate (low priority) */
+  --color-dark-5: 100 116 139;       /* #64748B - Muted slate (background) */
+
+  /* ===========================================
+     SEMANTIC COLOR MAPPINGS
+     =========================================== */
   
-  /* Status Colors */
-  --color-success: 34 197 94;      /* #22C55E - Success green */
-  --color-warning: 245 158 11;     /* #F59E0B - Warning amber */
-  --color-error: 239 68 68;        /* #EF4444 - Error red */
-  --color-info: 59 130 246;        /* #3B82F6 - Info blue */
+  /* Background Colors - Using white shades */
+  --color-background: var(--color-white-3);           /* Main background */
+  --color-background-surface: var(--color-white-1);   /* Primary surfaces */
+  --color-background-surface-secondary: var(--color-white-2); /* Secondary surfaces */
+  --color-background-surface-tertiary: var(--color-white-4);  /* Tertiary surfaces */
+  --color-background-muted: var(--color-white-5);     /* Muted backgrounds */
   
-  /* Interactive Colors - Cool Hover States */
-  --color-hover: 241 245 249;      /* #F1F5F9 - Cool hover states */
-  --color-active: 226 232 240;     /* #E2E8F0 - Cool active states */
-  --color-focus: 59 130 246;       /* #3B82F6 - Blue focus ring */
+  /* Legacy surface mappings */
+  --color-surface: var(--color-background-surface);
+  --color-surface-secondary: var(--color-background-surface-secondary);
+  --color-surface-tertiary: var(--color-background-surface-tertiary);
   
-  /* Gradient Colors - Blue Gradients */
-  --color-gradient-start: 30 64 175; /* #1E40AF - Deep blue gradient start */
-  --color-gradient-end: 37 99 235;   /* #2563EB - Bright blue gradient end */
-  --color-gradient-light-start: 59 130 246; /* #3B82F6 - Light blue gradient start */
-  --color-gradient-light-end: 30 64 175;   /* #1E40AF - Deep blue gradient end */
+  /* Text Colors - Using dark shades with better contrast */
+  --color-text-primary: var(--color-dark-1);          /* Primary text (highest priority) */
+  --color-text-secondary: var(--color-dark-2);        /* Secondary text (high priority) */
+  --color-text-tertiary: var(--color-dark-3);         /* Tertiary text (medium priority) */
+  --color-text-muted: var(--color-dark-4);            /* Muted text (low priority) */
+  --color-text-disabled: var(--color-dark-5);         /* Disabled text (background) */
+  
+  /* Legacy text mappings */
+  --color-text-light: var(--color-text-muted);
+  --color-text-white: var(--color-white-1);
+  
+  /* Border Colors - Using appropriate shades for better visibility */
+  --color-border: var(--color-white-5);               /* Primary borders */
+  --color-border-light: var(--color-white-4);         /* Light borders */
+  --color-border-dark: var(--color-dark-5);           /* Dark borders */
+  --color-border-muted: var(--color-white-4);         /* Muted borders */
+  
+  /* Interactive Colors - Priority-based */
+  --color-hover: var(--color-white-4);                /* Hover states */
+  --color-active: var(--color-white-5);               /* Active states */
+  --color-focus: var(--color-primary);                /* Focus ring (premium blue) */
+  --color-selected: var(--color-primary-lightest);    /* Selected states */
+  
+  /* Status Colors - Enhanced with proper contrast */
+  --color-success: 34 197 94;        /* #22C55E - Success green */
+  --color-success-light: 74 222 128; /* #4ADE80 - Light success green */
+  --color-success-dark: 22 163 74;   /* #16A34A - Dark success green */
+  --color-success-bg: 240 253 244;   /* #F0FDF4 - Success background */
+  
+  --color-warning: 245 158 11;       /* #F59E0B - Warning amber */
+  --color-warning-light: 251 191 36; /* #FBBF24 - Light warning amber */
+  --color-warning-dark: 217 119 6;   /* #D97706 - Dark warning amber */
+  --color-warning-bg: 255 251 235;   /* #FFFBEB - Warning background */
+  
+  --color-error: 239 68 68;          /* #EF4444 - Error red */
+  --color-error-light: 248 113 113;  /* #F87171 - Light error red */
+  --color-error-dark: 220 38 38;     /* #DC2626 - Dark error red */
+  --color-error-bg: 254 242 242;     /* #FEF2F2 - Error background */
+  
+  --color-info: 59 130 246;          /* #3B82F6 - Info blue */
+  --color-info-light: 96 165 250;    /* #60A5FA - Light info blue */
+  --color-info-dark: 37 99 235;      /* #2563EB - Dark info blue */
+  --color-info-bg: 239 246 255;      /* #EFF6FF - Info background */
+
+  /* ===========================================
+     ENHANCED SHADOW SYSTEM
+     =========================================== */
+  
+  /* Shadow Levels - From subtle to prominent */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);                    /* Extra small - subtle depth */
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); /* Small - light separation */
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* Medium - moderate depth */
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* Large - prominent depth */
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); /* Extra large - strong depth */
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);             /* 2X large - maximum depth */
+  
+  /* Specialized Shadows */
+  --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.08);                  /* Soft - gentle depth */
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);           /* Inner - inset depth */
+  --shadow-glow: 0 0 20px rgb(var(--color-primary) / 0.15);      /* Glow - premium blue glow */
+  --shadow-focus: 0 0 0 3px rgb(var(--color-primary) / 0.1);     /* Focus - focus ring shadow */
+  
+  /* Legacy shadow mappings */
+  --shadow-base: var(--shadow-md);
+  --shadow-inner: var(--shadow-inner);
+
+  /* ===========================================
+     ENHANCED TYPOGRAPHY SYSTEM - 5 Levels
+     =========================================== */
+  
+  /* Font Families */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-family-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+  /* ===========================================
+     TYPOGRAPHY HIERARCHY - 5 LEVELS
+     =========================================== */
+  
+  /* Level 1: Largest - Extremely Important (Hero headings, main CTAs) */
+  --text-1-size: 3.75rem;            /* 60px */
+  --text-1-weight: 800;               /* Extra bold */
+  --text-1-line-height: 1.1;          /* Tight line height */
+  --text-1-spacing: -0.025em;         /* Tight letter spacing */
+  --text-1-color: var(--color-text-primary);
+  
+  /* Level 2: Second Largest - Important Headings (Page titles, section headers) */
+  --text-2-size: 2.25rem;            /* 36px */
+  --text-2-weight: 700;               /* Bold */
+  --text-2-line-height: 1.2;          /* Tight line height */
+  --text-2-spacing: -0.025em;         /* Tight letter spacing */
+  --text-2-color: var(--color-text-primary);
+  
+  /* Level 3: Medium - Section Headings (Sub-sections, card titles) */
+  --text-3-size: 1.5rem;             /* 24px */
+  --text-3-weight: 600;               /* Semi-bold */
+  --text-3-line-height: 1.3;          /* Comfortable line height */
+  --text-3-spacing: 0;                /* Normal letter spacing */
+  --text-3-color: var(--color-text-primary);
+  
+  /* Level 4: Standard - Regular Body Text (Main content, descriptions) */
+  --text-4-size: 1rem;               /* 16px */
+  --text-4-weight: 400;               /* Normal */
+  --text-4-line-height: 1.6;          /* Relaxed line height */
+  --text-4-spacing: 0;                /* Normal letter spacing */
+  --text-4-color: var(--color-text-secondary);
+  
+  /* Level 5: Smallest - Secondary Information (Captions, labels, metadata) */
+  --text-5-size: 0.875rem;           /* 14px */
+  --text-5-weight: 400;               /* Normal */
+  --text-5-line-height: 1.5;          /* Normal line height */
+  --text-5-spacing: 0.025em;          /* Slightly wide letter spacing */
+  --text-5-color: var(--color-text-muted);
+
+  /* ===========================================
+     COMPONENT-SPECIFIC TYPOGRAPHY
+     =========================================== */
+  
+  /* Button Typography - Priority-based */
+  --button-primary-size: var(--text-4-size);
+  --button-primary-weight: 600;
+  --button-primary-line-height: 1;
+  --button-primary-color: var(--color-white-1);
+  
+  --button-secondary-size: var(--text-5-size);
+  --button-secondary-weight: 500;
+  --button-secondary-line-height: 1;
+  --button-secondary-color: var(--color-text-primary);
+  
+  /* Form Typography */
+  --form-label-size: var(--text-5-size);
+  --form-label-weight: 500;
+  --form-label-color: var(--color-text-secondary);
+  
+  --form-input-size: var(--text-4-size);
+  --form-input-weight: 400;
+  --form-input-color: var(--color-text-primary);
+  
+  /* Navigation Typography */
+  --nav-item-size: var(--text-5-size);
+  --nav-item-weight: 500;
+  --nav-item-color: var(--color-text-tertiary);
+  --nav-item-active-color: var(--color-primary);
+
+  /* ===========================================
+     SPACING SYSTEM - Enhanced
+     =========================================== */
+  
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;    /* 4px */
+  --spacing-2: 0.5rem;     /* 8px */
+  --spacing-3: 0.75rem;    /* 12px */
+  --spacing-4: 1rem;       /* 16px */
+  --spacing-5: 1.25rem;    /* 20px */
+  --spacing-6: 1.5rem;     /* 24px */
+  --spacing-8: 2rem;       /* 32px */
+  --spacing-10: 2.5rem;    /* 40px */
+  --spacing-12: 3rem;      /* 48px */
+  --spacing-16: 4rem;      /* 64px */
+  --spacing-20: 5rem;      /* 80px */
+  --spacing-24: 6rem;      /* 96px */
+  --spacing-32: 8rem;      /* 128px */
+
+  /* ===========================================
+     BORDER RADIUS SYSTEM - Enhanced
+     =========================================== */
+  
+  --radius-none: 0;
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-base: 0.25rem;  /* 4px */
+  --radius-md: 0.375rem;   /* 6px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-3xl: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+
+  /* ===========================================
+     GRADIENT SYSTEM - Enhanced
+     =========================================== */
+  
+  --gradient-primary: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(var(--color-primary-light)) 100%);
+  --gradient-primary-subtle: linear-gradient(135deg, rgb(var(--color-primary) / 0.1) 0%, rgb(var(--color-primary-light) / 0.1) 100%);
+  --gradient-surface: linear-gradient(135deg, rgb(var(--color-white-1)) 0%, rgb(var(--color-white-2)) 100%);
+  --gradient-muted: linear-gradient(135deg, rgb(var(--color-white-4)) 0%, rgb(var(--color-white-5)) 100%);
 }
 
+/* ===========================================
+   DARK MODE OVERRIDES - Enhanced
+   =========================================== */
 .dark {
-  /* Dark mode overrides - Deep Blue Theme */
+  /* Dark mode color overrides - Inverted hierarchy */
   
-  /* Background & Surface Colors - Deep Blue Tones */
-  --color-background: 2 6 23;          /* #020617 - Deep navy background */
-  --color-surface: 15 23 42;           /* #0F172A - Dark slate surfaces */
-  --color-surface-secondary: 30 41 59; /* #1E293B - Secondary dark surfaces */
-  --color-surface-tertiary: 51 65 85;  /* #334155 - Tertiary dark surfaces */
+  /* Background Colors - Using dark shades */
+  --color-background: var(--color-dark-1);                    /* Deep slate background */
+  --color-background-surface: var(--color-dark-2);            /* Dark slate surfaces */
+  --color-background-surface-secondary: var(--color-dark-3);  /* Secondary dark surfaces */
+  --color-background-surface-tertiary: var(--color-dark-4);   /* Tertiary dark surfaces */
+  --color-background-muted: var(--color-dark-5);              /* Muted dark backgrounds */
   
-  /* Border Colors - Blue-tinted Dark */
-  --color-border: 51 65 85;            /* #334155 - Dark blue borders */
-  --color-border-light: 71 85 105;     /* #475569 - Light dark borders */
-  --color-border-dark: 30 41 59;       /* #1E293B - Darker borders */
+  /* Legacy surface mappings */
+  --color-surface: var(--color-background-surface);
+  --color-surface-secondary: var(--color-background-surface-secondary);
+  --color-surface-tertiary: var(--color-background-surface-tertiary);
   
-  /* Text Colors - Cool Light Tones */
-  --color-text-primary: 248 250 252;   /* #F8FAFC - Light text */
-  --color-text-secondary: 226 232 240; /* #E2E8F0 - Secondary light text */
-  --color-text-muted: 148 163 184;     /* #94A3B8 - Muted light text */
-  --color-text-light: 100 116 139;     /* #64748B - Light text */
-  --color-text-white: 255 255 255;     /* #FFFFFF - Pure white text */
+  /* Text Colors - Using white shades with better contrast for dark mode */
+  --color-text-primary: var(--color-white-1);                 /* Pure white text (highest priority) */
+  --color-text-secondary: var(--color-white-2);               /* Off-white text (high priority) */
+  --color-text-tertiary: var(--color-white-3);                /* Light gray-white text (medium priority) */
+  --color-text-muted: var(--color-white-4);                   /* Soft gray-white text (low priority) */
+  --color-text-disabled: var(--color-white-5);                /* Muted gray-white text (background) */
   
-  /* Interactive Colors - Blue-tinted Dark */
-  --color-hover: 30 41 59;             /* #1E293B - Dark hover states */
-  --color-active: 51 65 85;             /* #334155 - Dark active states */
-  --color-focus: 59 130 246;           /* #3B82F6 - Blue focus ring */
+  /* Legacy text mappings */
+  --color-text-light: var(--color-text-muted);
+  --color-text-white: var(--color-white-1);
+  
+  /* Border Colors - Adjusted for dark mode with better visibility */
+  --color-border: var(--color-dark-4);                        /* Dark borders */
+  --color-border-light: var(--color-dark-3);                  /* Light dark borders */
+  --color-border-dark: var(--color-dark-2);                   /* Darker borders */
+  --color-border-muted: var(--color-dark-5);                  /* Muted dark borders */
+  
+  /* Interactive Colors - Dark mode variants */
+  --color-hover: var(--color-dark-3);                         /* Dark hover states */
+  --color-active: var(--color-dark-4);                        /* Dark active states */
+  --color-focus: var(--color-primary-light);                  /* Bright focus ring */
+  --color-selected: var(--color-primary-lighter);             /* Bright selected states */
   
   /* Enhanced brand colors for dark mode - Brighter Blues */
-  --color-blood-red: 37 99 235;        /* #2563EB - Bright blue for dark */
-  --color-crimson: 59 130 246;         /* #3B82F6 - Brighter blue accent */
-  --color-copper-orange: 96 165 250;   /* #60A5FA - Light blue accent */
+  --color-primary: var(--color-primary-light);                /* Bright blue for dark */
+  --color-primary-light: var(--color-primary-lighter);        /* Brighter blue accent */
+  --color-primary-lighter: var(--color-primary-lightest);     /* Lightest blue accent */
+  --color-primary-lightest: 147 197 253;                      /* #93C5FD - Lightest blue accent */
+  
+  /* Legacy color mappings for dark mode */
+  --color-blood-red: var(--color-primary);
+  --color-crimson: var(--color-primary-light);
+  --color-copper-orange: var(--color-primary-lighter);
+
+  /* Status colors for dark mode - Brighter variants with better contrast */
+  --color-success: 74 222 128;                                /* #4ADE80 - Bright success green */
+  --color-success-light: 134 239 172;                         /* #86EFAC - Lighter success green */
+  --color-success-dark: 34 197 94;                            /* #22C55E - Dark success green */
+  --color-success-bg: 20 83 45;                              /* Dark success background */
+  
+  --color-warning: 251 191 36;                                /* #FBBF24 - Bright warning amber */
+  --color-warning-light: 253 224 71;                          /* #FDE047 - Lighter warning amber */
+  --color-warning-dark: 245 158 11;                           /* #F59E0B - Dark warning amber */
+  --color-warning-bg: 113 63 18;                             /* Dark warning background */
+  
+  --color-error: 248 113 113;                                 /* #F87171 - Bright error red */
+  --color-error-light: 252 165 165;                           /* #FCA5A5 - Lighter error red */
+  --color-error-dark: 239 68 68;                              /* #EF4444 - Dark error red */
+  --color-error-bg: 127 29 29;                               /* Dark error background */
+  
+  --color-info: 96 165 250;                                   /* #60A5FA - Bright info blue */
+  --color-info-light: 147 197 253;                            /* #93C5FD - Lighter info blue */
+  --color-info-dark: 59 130 246;                              /* #3B82F6 - Dark info blue */
+  --color-info-bg: 30 58 138;                                /* Dark info background */
+
+  /* Enhanced shadows for dark mode */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+  --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.3);
+  --shadow-glow: 0 0 20px rgb(var(--color-primary) / 0.3);
+  --shadow-focus: 0 0 0 3px rgb(var(--color-primary) / 0.2);
 }
 
+/* ===========================================
+   UTILITY CLASSES FOR ENHANCED DESIGN
+   =========================================== */
 
+/* Typography Hierarchy Classes */
+.text-1 {
+  font-size: var(--text-1-size);
+  font-weight: var(--text-1-weight);
+  line-height: var(--text-1-line-height);
+  letter-spacing: var(--text-1-spacing);
+  color: rgb(var(--text-1-color));
+  font-family: var(--font-family-display);
+}
+
+.text-2 {
+  font-size: var(--text-2-size);
+  font-weight: var(--text-2-weight);
+  line-height: var(--text-2-line-height);
+  letter-spacing: var(--text-2-spacing);
+  color: rgb(var(--text-2-color));
+  font-family: var(--font-family-display);
+}
+
+.text-3 {
+  font-size: var(--text-3-size);
+  font-weight: var(--text-3-weight);
+  line-height: var(--text-3-line-height);
+  letter-spacing: var(--text-3-spacing);
+  color: rgb(var(--text-3-color));
+  font-family: var(--font-family-display);
+}
+
+.text-4 {
+  font-size: var(--text-4-size);
+  font-weight: var(--text-4-weight);
+  line-height: var(--text-4-line-height);
+  letter-spacing: var(--text-4-spacing);
+  color: rgb(var(--text-4-color));
+  font-family: var(--font-family-sans);
+}
+
+.text-5 {
+  font-size: var(--text-5-size);
+  font-weight: var(--text-5-weight);
+  line-height: var(--text-5-line-height);
+  letter-spacing: var(--text-5-spacing);
+  color: rgb(var(--text-5-color));
+  font-family: var(--font-family-sans);
+}
+
+/* Priority-based Color Classes */
+.bg-priority-1 { background-color: rgb(var(--color-white-1)); }
+.bg-priority-2 { background-color: rgb(var(--color-white-2)); }
+.bg-priority-3 { background-color: rgb(var(--color-white-3)); }
+.bg-priority-4 { background-color: rgb(var(--color-white-4)); }
+.bg-priority-5 { background-color: rgb(var(--color-white-5)); }
+
+.text-priority-1 { color: rgb(var(--color-text-primary)); }
+.text-priority-2 { color: rgb(var(--color-text-secondary)); }
+.text-priority-3 { color: rgb(var(--color-text-tertiary)); }
+.text-priority-4 { color: rgb(var(--color-text-muted)); }
+.text-priority-5 { color: rgb(var(--color-text-disabled)); }
+
+/* Enhanced Shadow Classes */
+.shadow-xs { box-shadow: var(--shadow-xs); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-2xl { box-shadow: var(--shadow-2xl); }
+.shadow-soft { box-shadow: var(--shadow-soft); }
+.shadow-glow { box-shadow: var(--shadow-glow); }
+.shadow-focus { box-shadow: var(--shadow-focus); }
+
+/* Component-specific Priority Classes */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: rgb(var(--button-primary-color));
+  font-size: var(--button-primary-size);
+  font-weight: var(--button-primary-weight);
+  line-height: var(--button-primary-line-height);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background-color: rgb(var(--color-white-1));
+  color: rgb(var(--button-secondary-color));
+  font-size: var(--button-secondary-size);
+  font-weight: var(--button-secondary-weight);
+  line-height: var(--button-secondary-line-height);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgb(var(--color-border));
+}
+
+/* Card Components with Priority-based Styling */
+.card-priority-1 {
+  background-color: rgb(var(--color-white-1));
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgb(var(--color-border-light));
+}
+
+.card-priority-2 {
+  background-color: rgb(var(--color-white-2));
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgb(var(--color-border));
+}
+
+.card-priority-3 {
+  background-color: rgb(var(--color-white-3));
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgb(var(--color-border-muted));
+}
+
+/* Form Components with Enhanced Styling */
+.form-input {
+  background-color: rgb(var(--color-white-1));
+  border: 1px solid rgb(var(--color-border));
+  color: rgb(var(--form-input-color));
+  font-size: var(--form-input-size);
+  font-weight: var(--form-input-weight);
+  box-shadow: var(--shadow-xs);
+}
+
+.form-input:focus {
+  border-color: rgb(var(--color-focus));
+  box-shadow: var(--shadow-focus);
+}
+
+.form-label {
+  color: rgb(var(--form-label-color));
+  font-size: var(--form-label-size);
+  font-weight: var(--form-label-weight);
+}
+
+/* Navigation Components */
+.nav-item {
+  color: rgb(var(--nav-item-color));
+  font-size: var(--nav-item-size);
+  font-weight: var(--nav-item-weight);
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+  color: rgb(var(--color-text-secondary));
+}
+
+.nav-item-active {
+  color: rgb(var(--nav-item-active-color));
+  font-weight: 600;
+}
+
+/* Status Components */
+.status-success {
+  background-color: rgb(var(--color-success-bg));
+  color: rgb(var(--color-success));
+  border: 1px solid rgb(var(--color-success) / 0.2);
+}
+
+.status-warning {
+  background-color: rgb(var(--color-warning-bg));
+  color: rgb(var(--color-warning));
+  border: 1px solid rgb(var(--color-warning) / 0.2);
+}
+
+.status-error {
+  background-color: rgb(var(--color-error-bg));
+  color: rgb(var(--color-error));
+  border: 1px solid rgb(var(--color-error) / 0.2);
+}
+
+.status-info {
+  background-color: rgb(var(--color-info-bg));
+  color: rgb(var(--color-info));
+  border: 1px solid rgb(var(--color-info) / 0.2);
+}

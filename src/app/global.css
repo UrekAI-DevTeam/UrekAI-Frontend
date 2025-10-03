@@ -2,13 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import theme and typography systems */
+@import '../styles/theme.css';
+@import '../styles/typography.css';
+
 /* Additional global styles */
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.6;
+  font-family: var(--font-family-sans);
+  line-height: var(--line-height-normal);
+  color: rgb(var(--color-text-primary));
+  background-color: rgb(var(--color-background));
 }
 
 * {

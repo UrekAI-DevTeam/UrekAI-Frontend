@@ -28,27 +28,10 @@ import {
   X
 } from 'lucide-react';
 import { useFilesStore } from '@/state/filesStore';
+import { useChatStore } from '@/state/chatStore';
+import { Message } from '@/types';
 
-interface Message {
-  id: string;
-  type: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-  attachments?: Array<{
-    name: string;
-    type: string;
-    size: string;
-  }>;
-  isTyping?: boolean;
-  status?: 'sending' | 'sent' | 'delivered' | 'read';
-  analysis?: {
-    summary: string;
-    key_insights: string[];
-    trends_anomalies: string[];
-  };
-  table_data?: Record<string, any[]>;
-  graph_data?: Record<string, any>;
-}
+// Use the Message type from types/index.ts
 
 export function ChatInterface() {
   const [message, setMessage] = useState('');
@@ -57,14 +40,34 @@ export function ChatInterface() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [messages, setMessages] = useState<Message[]>([]);
-  
   // File upload progress tracking
   const [uploadingFiles, setUploadingFiles] = useState<Record<string, { progress: number; status: string; fileName: string }>>({});
   const uploadIntervals = useRef<Record<string, NodeJS.Timeout>>({});
   
   // Attached files for current chat
   const [attachedFiles, setAttachedFiles] = useState<any[]>([]);
+  
+  // Chat store integration
+  const { 
+    activeChat, 
+    getChatData, 
+    createChat, 
+    setActiveChat, 
+    addMessage, 
+    updateChatData,
+    loadChatData 
+  } = useChatStore();
+  
+  // Get current chat data
+  const currentChat = activeChat ? getChatData(activeChat) : null;
+  const messages = currentChat?.messages || [];
+
+  // Load chat data when active chat changes
+  useEffect(() => {
+    if (activeChat) {
+      loadChatData(activeChat);
+    }
+  }, [activeChat, loadChatData]);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -79,42 +82,38 @@ export function ChatInterface() {
   const handleSendMessage = async () => {
     if (!message.trim()) return;
 
+    // Create a new chat if none exists
+    let chatId = activeChat;
+    if (!chatId) {
+      chatId = Date.now().toString();
+      await createChat(chatId, 'New Chat');
+      setActiveChat(chatId);
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(),
       type: 'user',
       content: message,
-      timestamp: new Date(),
-      status: 'sending',
-      attachments: attachedFiles.length > 0 ? attachedFiles.map(file => ({
-        name: file.name,
-        type: file.type?.split('/')[1]?.toUpperCase() || 'FILE',
-        size: file.size ? (file.size / 1024 / 1024).toFixed(1) + ' MB' : 'Unknown size'
-      })) : undefined
+      timestamp: new Date().toISOString(),
+      attachments: attachedFiles.length > 0 ? attachedFiles.map(file => new File([file], file.name, { type: file.type })) : undefined
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    // Add message to chat store
+    await addMessage(chatId, userMessage);
+    
     const currentMessage = message;
     const currentAttachedFiles = [...attachedFiles];
     setMessage('');
     setAttachedFiles([]); // Clear attached files after sending
 
-    // Update message status to sent
-    setTimeout(() => {
-      setMessages(prev => 
-        prev.map(msg => 
-          msg.id === userMessage.id 
-            ? { ...msg, status: 'sent' as const }
-            : msg
-        )
-      );
-    }, 500);
+    // Message is automatically saved to Firebase via addMessage
 
     // Show typing indicator
     setIsTyping(true);
 
     try {
       // Call the backend API with attached files
-      const response = await chatAPI.query(currentMessage, currentAttachedFiles);
+      const response = await chatAPI.query(currentMessage, currentAttachedFiles, chatId);
       
       // Hide typing indicator
       setIsTyping(false);
@@ -122,16 +121,18 @@ export function ChatInterface() {
       // Create AI response message
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
-        type: 'assistant',
+        type: 'ai',
         content: response.message || response.content || "I understand your question. Let me analyze the data and provide you with insights...",
-        timestamp: new Date(),
-        status: 'read',
-        analysis: response.analysis,
-        table_data: response.table_data,
-        graph_data: response.graph_data
+        timestamp: new Date().toISOString(),
+        analysisData: {
+          analysis: response.analysis,
+          table_data: response.table_data,
+          graph_data: response.graph_data
+        }
       };
 
-      setMessages(prev => [...prev, aiResponse]);
+      // Add AI response to chat store
+      await addMessage(chatId, aiResponse);
     } catch (error) {
       console.error('Chat API error:', error);
       setIsTyping(false);
@@ -139,13 +140,14 @@ export function ChatInterface() {
       // Show error message
       const errorResponse: Message = {
         id: (Date.now() + 1).toString(),
-        type: 'assistant',
+        type: 'ai',
         content: "I'm sorry, I encountered an error processing your request. Please try again.",
-        timestamp: new Date(),
-        status: 'read'
+        timestamp: new Date().toISOString(),
+        isError: true
       };
       
-      setMessages(prev => [...prev, errorResponse]);
+      // Add error response to chat store
+      await addMessage(chatId, errorResponse);
     }
   };
 
@@ -195,7 +197,7 @@ export function ChatInterface() {
         // Create uploaded file object
         const uploadedFile = {
           id: fileId,
-          name: file.name,
+                      name: file.name,
           size: file.size,
           type: file.type,
           uploadId: uploadResult.uploadId,
@@ -225,15 +227,7 @@ export function ChatInterface() {
       }));
       
       // Show specific error message to user
-      const errorText = error instanceof Error ? error.message : `Failed to upload "${file.name}". Please try again.`;
-      const errorMessage: Message = {
-        id: (Date.now() + 3).toString(),
-        type: 'assistant',
-        content: errorText,
-        timestamp: new Date(),
-        status: 'read'
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      console.error('File upload error:', error);
     }
 
     // Reset the file input
@@ -313,7 +307,7 @@ export function ChatInterface() {
     if (attachedFiles.find(f => f.id === file.id)) {
       // File already attached, remove it
       setAttachedFiles(prev => prev.filter(f => f.id !== file.id));
-    } else {
+      } else {
       // Attach file to current chat
       setAttachedFiles(prev => [...prev, file]);
     }
@@ -827,50 +821,28 @@ export function ChatInterface() {
                     )}
 
                     {/* Analysis Response */}
-                    {msg.type === 'assistant' && (msg.analysis || msg.table_data || msg.graph_data) && (
+                    {msg.type === 'ai' && msg.analysisData && (
                       <AnalysisResponse 
-                        analysis={msg.analysis} 
-                        table_data={msg.table_data} 
-                        graph_data={msg.graph_data} 
+                        analysis={msg.analysisData.analysis} 
+                        table_data={msg.analysisData.table_data} 
+                        graph_data={msg.analysisData.graph_data} 
                       />
                     )}
 
                   </div>
 
-                  {/* Timestamp and Status */}
+                  {/* Timestamp */}
                   <div className={`flex items-center gap-2 mt-1 text-xs text-text-muted ${
                     msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'
                   }`}>
-                    <span>{formatTime(msg.timestamp)}</span>
-                    {msg.type === 'user' && msg.status && (
-                      <div className="flex items-center">
-                        {msg.status === 'sending' && (
-                          <div className="w-2 h-2 bg-text-muted rounded-full animate-pulse" />
-                        )}
-                        {msg.status === 'sent' && (
-                          <div className="w-2 h-2 bg-text-muted rounded-full" />
-                        )}
-                        {msg.status === 'delivered' && (
-                          <div className="flex">
-                            <div className="w-2 h-2 bg-text-muted rounded-full" />
-                            <div className="w-2 h-2 bg-text-muted rounded-full -ml-1" />
-                          </div>
-                        )}
-                        {msg.status === 'read' && (
-                          <div className="flex">
-                            <div className="w-2 h-2 bg-blood-red rounded-full" />
-                            <div className="w-2 h-2 bg-blood-red rounded-full -ml-1" />
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    <span>{formatTime(new Date(msg.timestamp))}</span>
                     
-                    {/* Message Actions (for assistant messages) */}
-                    {msg.type === 'assistant' && (
+                    {/* Message Actions (for AI messages) */}
+                    {msg.type === 'ai' && (
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ml-2">
                         <button
                           className="w-6 h-6 p-0 hover:bg-hover rounded-full flex items-center justify-center transition-colors duration-200"
-                          onClick={() => copyToClipboard(msg.content)}
+                          onClick={() => copyToClipboard(typeof msg.content === 'string' ? msg.content : String(msg.content))}
                           title="Copy message"
                         >
                           <Copy className="w-3 h-3 text-text-muted" />
@@ -1062,13 +1034,13 @@ export function ChatInterface() {
                   <div key={f.id} className="p-3 hover:bg-hover flex items-center justify-between group">
                     <div className="flex items-center gap-2 flex-1 min-w-0">
                       {f.status === 'processing' && (
-                        <Loader2 className="h-4 w-4 text-yellow-500 animate-spin flex-shrink-0" />
+                        <Loader2 className="h-4 w-4 text-warning animate-spin flex-shrink-0" />
                       )}
                       {f.status === 'completed' && (
-                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-success flex-shrink-0" />
                       )}
                       {f.status === 'failed' && (
-                        <AlertCircle className="h-4 w-4 text-red-500 flex-shrink-0" />
+                        <AlertCircle className="h-4 w-4 text-error flex-shrink-0" />
                       )}
                       <span className="text-sm text-text-primary truncate">{f.name}</span>
                     </div>
@@ -1090,14 +1062,14 @@ export function ChatInterface() {
                         ) : (
                           <Plus className="h-3 w-3" />
                         )}
-                      </button>
+                  </button>
                       <button 
                         onClick={() => handleDeleteFile(f)}
                         className="p-1 text-text-muted hover:text-error opacity-0 group-hover:opacity-100 transition-opacity"
                         title="Delete file"
                       >
                         <Trash2 className="h-3 w-3" />
-                      </button>
+                  </button>
                     </div>
                   </div>
                 ))}

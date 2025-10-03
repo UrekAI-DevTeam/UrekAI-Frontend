@@ -142,13 +142,13 @@ export function SettingsPage() {
         <TabsContent value="general" className="space-y-6">
           <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">General Preferences</CardTitle>
-              <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Configure your basic application settings</CardDescription>
+              <CardTitle className="text-text-primary">General Preferences</CardTitle>
+              <CardDescription className="text-text-secondary">Configure your basic application settings</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <Label htmlFor="language" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Language</Label>
+                  <Label htmlFor="language" className="text-text-secondary">Language</Label>
                   <Select value={preferences.language} onValueChange={(value) => setPreferences({...preferences, language: value})}>
                     <SelectTrigger className="mt-1 bg-surface backdrop-blur-xl border-border text-text-primary">
                       <SelectValue />
@@ -163,7 +163,7 @@ export function SettingsPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="timezone" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Timezone</Label>
+                  <Label htmlFor="timezone" className="text-text-secondary">Timezone</Label>
                   <Select value={preferences.timezone} onValueChange={(value) => setPreferences({...preferences, timezone: value})}>
                     <SelectTrigger className="mt-1 bg-surface backdrop-blur-xl border-border text-text-primary">
                       <SelectValue />
@@ -181,8 +181,8 @@ export function SettingsPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="auto-save" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Auto-save work</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Automatically save your progress while working</p>
+                    <Label htmlFor="auto-save" className="text-text-secondary">Auto-save work</Label>
+                    <p className="text-sm text-text-muted">Automatically save your progress while working</p>
                   </div>
                   <Switch 
                     id="auto-save"
@@ -194,8 +194,8 @@ export function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="low-power" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Low power mode</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Reduce animations and background processing</p>
+                    <Label htmlFor="low-power" className="text-text-secondary">Low power mode</Label>
+                    <p className="text-sm text-text-muted">Reduce animations and background processing</p>
                   </div>
                   <Switch 
                     id="low-power"
@@ -213,15 +213,15 @@ export function SettingsPage() {
         <TabsContent value="notifications" className="space-y-6">
           <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">Notification Settings</CardTitle>
-              <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Choose how and when you want to be notified</CardDescription>
+              <CardTitle className="text-text-primary">Notification Settings</CardTitle>
+              <CardDescription className="text-text-secondary">Choose how and when you want to be notified</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="email-notifications" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Email notifications</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Receive updates via email</p>
+                    <Label htmlFor="email-notifications" className="text-text-secondary">Email notifications</Label>
+                    <p className="text-sm text-text-muted">Receive updates via email</p>
                   </div>
                   <Switch 
                     id="email-notifications"
@@ -233,8 +233,8 @@ export function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="push-notifications" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Push notifications</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Get notified in your browser</p>
+                    <Label htmlFor="push-notifications" className="text-text-secondary">Push notifications</Label>
+                    <p className="text-sm text-text-muted">Get notified in your browser</p>
                   </div>
                   <Switch 
                     id="push-notifications"
@@ -246,8 +246,8 @@ export function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="insights-notifications" className="text-gray-600 dark:text-gray-900 dark:text-white/70">New insights</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Notify when AI generates new insights</p>
+                    <Label htmlFor="insights-notifications" className="text-text-secondary">New insights</Label>
+                    <p className="text-sm text-text-muted">Notify when AI generates new insights</p>
                   </div>
                   <Switch 
                     id="insights-notifications"
@@ -259,8 +259,8 @@ export function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="reports-notifications" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Weekly reports</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Receive weekly summary reports</p>
+                    <Label htmlFor="reports-notifications" className="text-text-secondary">Weekly reports</Label>
+                    <p className="text-sm text-text-muted">Receive weekly summary reports</p>
                   </div>
                   <Switch 
                     id="reports-notifications"
@@ -272,8 +272,8 @@ export function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="marketing-notifications" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Marketing updates</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Product news and feature announcements</p>
+                    <Label htmlFor="marketing-notifications" className="text-text-secondary">Marketing updates</Label>
+                    <p className="text-sm text-text-muted">Product news and feature announcements</p>
                   </div>
                   <Switch 
                     id="marketing-notifications"
@@ -291,37 +291,37 @@ export function SettingsPage() {
         <TabsContent value="appearance" className="space-y-6">
           <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">Appearance Settings</CardTitle>
-              <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Customize how the application looks and feels</CardDescription>
+              <CardTitle className="text-text-primary">Appearance Settings</CardTitle>
+              <CardDescription className="text-text-secondary">Customize how the application looks and feels</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
-                <Label className="text-base font-semibold text-gray-900 dark:text-white">Theme</Label>
-                <p className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70 mb-4">Choose your preferred theme for the application</p>
+                <Label className="text-base font-semibold text-text-primary">Theme</Label>
+                <p className="text-sm text-text-secondary mb-4">Choose your preferred theme for the application</p>
                 <div className="grid grid-cols-3 gap-4">
                   <button 
                     onClick={() => handleSetTheme('light')}
                     className={`p-6 rounded-2xl border-2 transition-all duration-200 backdrop-blur-sm ${preferences.theme === 'light' ? 'border-blood-red bg-white/10' : 'border-white/20 hover:border-white/40 bg-white/5'}`}
                   >
                     <Sun className="w-8 h-8 mx-auto mb-3 text-yellow-400" />
-                    <div className="font-semibold text-lg mb-2 text-gray-900 dark:text-white">Light</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Clean and bright</div>
+                    <div className="font-semibold text-lg mb-2 text-text-primary">Light</div>
+                    <div className="text-sm text-text-secondary">Clean and bright</div>
                   </button>
                   <button 
                     onClick={() => handleSetTheme('dark')}
                     className={`p-6 rounded-2xl border-2 transition-all duration-200 bg-gradient-to-br ${preferences.theme === 'dark' ? 'border-blood-red from-blood-red/10 to-crimson/10' : 'border-white/20 hover:border-white/40 from-white/5 to-white/5'}`}
                   >
                     <Moon className="w-8 h-8 mx-auto mb-3 text-blue-400" />
-                    <div className="font-semibold text-lg mb-2 text-gray-900 dark:text-white">Dark</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Easy on the eyes</div>
+                    <div className="font-semibold text-lg mb-2 text-text-primary">Dark</div>
+                    <div className="text-sm text-text-secondary">Easy on the eyes</div>
                   </button>
                   <button 
                     onClick={() => handleSetTheme('system')}
                     className={`p-6 rounded-2xl border-2 transition-all duration-200 backdrop-blur-sm ${preferences.theme === 'system' ? 'border-blood-red bg-white/10' : 'border-white/20 hover:border-white/40 bg-white/5'}`}
                   >
                     <Monitor className="w-8 h-8 mx-auto mb-3 text-gray-500 dark:text-white/70" />
-                    <div className="font-semibold text-lg mb-2 text-gray-900 dark:text-white">System</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Follow device</div>
+                    <div className="font-semibold text-lg mb-2 text-text-primary">System</div>
+                    <div className="text-sm text-text-secondary">Follow device</div>
                   </button>
                 </div>
               </div>
@@ -333,15 +333,15 @@ export function SettingsPage() {
         <TabsContent value="privacy" className="space-y-6">
           <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">Privacy & Data Settings</CardTitle>
-              <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Control how your data is used and shared</CardDescription>
+              <CardTitle className="text-text-primary">Privacy & Data Settings</CardTitle>
+              <CardDescription className="text-text-secondary">Control how your data is used and shared</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="data-sharing" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Data sharing for improvements</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Help improve UrekAI by sharing anonymized usage data</p>
+                    <Label htmlFor="data-sharing" className="text-text-secondary">Data sharing for improvements</Label>
+                    <p className="text-sm text-text-muted">Help improve UrekAI by sharing anonymized usage data</p>
                   </div>
                   <Switch 
                     id="data-sharing"
@@ -353,8 +353,8 @@ export function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="analytics" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Analytics tracking</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Allow analytics to help us understand feature usage</p>
+                    <Label htmlFor="analytics" className="text-text-secondary">Analytics tracking</Label>
+                    <p className="text-sm text-text-muted">Allow analytics to help us understand feature usage</p>
                   </div>
                   <Switch 
                     id="analytics"
@@ -366,8 +366,8 @@ export function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="public-profile" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Public profile</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Make your profile visible to other users</p>
+                    <Label htmlFor="public-profile" className="text-text-secondary">Public profile</Label>
+                    <p className="text-sm text-text-muted">Make your profile visible to other users</p>
                   </div>
                   <Switch 
                     id="public-profile"
@@ -379,8 +379,8 @@ export function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="searchable" className="text-gray-600 dark:text-gray-900 dark:text-white/70">Searchable in directory</Label>
-                    <p className="text-sm text-gray-500 dark:text-gray-900 dark:text-white/50">Allow others to find you in the user directory</p>
+                    <Label htmlFor="searchable" className="text-text-secondary">Searchable in directory</Label>
+                    <p className="text-sm text-text-muted">Allow others to find you in the user directory</p>
                   </div>
                   <Switch 
                     id="searchable"
@@ -398,33 +398,33 @@ export function SettingsPage() {
         <TabsContent value="data" className="space-y-6">
           <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">Data Management</CardTitle>
-              <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Manage your data storage and exports</CardDescription>
+              <CardTitle className="text-text-primary">Data Management</CardTitle>
+              <CardDescription className="text-text-secondary">Manage your data storage and exports</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="font-medium text-gray-900 dark:text-white">Storage Usage</h4>
+                  <h4 className="font-medium text-text-primary">Storage Usage</h4>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Datasets</span>
-                      <span className="font-medium text-gray-900 dark:text-white">2.3 GB</span>
+                      <span className="text-sm text-text-secondary">Datasets</span>
+                      <span className="font-medium text-text-primary">2.3 GB</span>
                     </div>
                     <div className="w-full bg-white/10 rounded-full h-2">
                       <div className="bg-gradient-to-r from-blood-red to-crimson h-2 rounded-full" style={{ width: '60%' }}></div>
                     </div>
                     
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Chat History</span>
-                      <span className="font-medium text-gray-900 dark:text-white">156 MB</span>
+                      <span className="text-sm text-text-secondary">Chat History</span>
+                      <span className="font-medium text-text-primary">156 MB</span>
                     </div>
                     <div className="w-full bg-white/10 rounded-full h-2">
                       <div className="bg-gradient-to-r from-crimson to-copper-orange h-2 rounded-full" style={{ width: '20%' }}></div>
                     </div>
                     
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Insights</span>
-                      <span className="font-medium text-gray-900 dark:text-white">89 MB</span>
+                      <span className="text-sm text-text-secondary">Insights</span>
+                      <span className="font-medium text-text-primary">89 MB</span>
                     </div>
                     <div className="w-full bg-white/10 rounded-full h-2">
                       <div className="bg-gradient-to-r from-copper-orange to-blood-red h-2 rounded-full" style={{ width: '15%' }}></div>
@@ -433,7 +433,7 @@ export function SettingsPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="font-medium text-gray-900 dark:text-white">Data Actions</h4>
+                  <h4 className="font-medium text-text-primary">Data Actions</h4>
                   <div className="space-y-3">
                     <Button variant="outline" className="w-full justify-start gap-2 text-text-primary border-border hover:bg-hover">
                       <Download className="w-4 h-4" />
@@ -443,7 +443,7 @@ export function SettingsPage() {
                       <Upload className="w-4 h-4" />
                       Import Data
                     </Button>
-                    <Button variant="outline" className="w-full justify-start gap-2 text-red-400 hover:text-red-300 border-red-500/30 hover:bg-red-500/10">
+                    <Button variant="outline" className="w-full justify-start gap-2 text-error hover:text-error/80 border-error/30 hover:bg-error/10">
                       <Trash2 className="w-4 h-4" />
                       Clear All Data
                     </Button>
@@ -458,31 +458,31 @@ export function SettingsPage() {
         <TabsContent value="security" className="space-y-6">
           <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">Security Settings</CardTitle>
-              <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Manage your account security and access</CardDescription>
+              <CardTitle className="text-text-primary">Security Settings</CardTitle>
+              <CardDescription className="text-text-secondary">Manage your account security and access</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div>
-                  <Label className="text-gray-600 dark:text-gray-900 dark:text-white/70">Change Password</Label>
+                  <Label className="text-text-secondary">Change Password</Label>
                   <div className="grid gap-3 mt-2">
                     <Input type="password" placeholder="Current password" className="bg-surface backdrop-blur-xl border-border text-text-primary placeholder-text-muted" />
                     <Input type="password" placeholder="New password" className="bg-surface backdrop-blur-xl border-border text-text-primary placeholder-text-muted" />
                     <Input type="password" placeholder="Confirm new password" className="bg-surface backdrop-blur-xl border-border text-text-primary placeholder-text-muted" />
-                    <Button className="w-fit bg-gradient-to-r from-blood-red to-crimson text-gray-900 dark:text-white hover:shadow-lg hover:shadow-blood-red/20">
+                    <Button className="w-fit bg-gradient-to-r from-blood-red to-crimson text-text-white hover:shadow-lg hover:shadow-blood-red/20">
                       Update Password
                     </Button>
                   </div>
                 </div>
 
                 <div className="border-t border-white/20 pt-4">
-                  <h4 className="font-medium text-gray-900 dark:text-white mb-4">Two-Factor Authentication</h4>
+                  <h4 className="font-medium text-text-primary mb-4">Two-Factor Authentication</h4>
                   <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <Shield className="w-5 h-5 text-green-400" />
+                      <Shield className="w-5 h-5 text-success" />
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">2FA Enabled</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Using authenticator app</p>
+                        <p className="font-medium text-text-primary">2FA Enabled</p>
+                        <p className="text-sm text-text-secondary">Using authenticator app</p>
                       </div>
                     </div>
                     <Button variant="outline" size="sm" className="text-text-primary border-border hover:bg-hover">Configure</Button>
@@ -490,21 +490,21 @@ export function SettingsPage() {
                 </div>
 
                 <div className="border-t border-white/20 pt-4">
-                  <h4 className="font-medium text-gray-900 dark:text-white mb-4">Active Sessions</h4>
+                  <h4 className="font-medium text-text-primary mb-4">Active Sessions</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">Current Session</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Chrome on macOS • San Francisco, CA</p>
+                        <p className="font-medium text-text-primary">Current Session</p>
+                        <p className="text-sm text-text-secondary">Chrome on macOS • San Francisco, CA</p>
                       </div>
-                      <Badge className="bg-green-500/20 text-green-300 border-green-500/30">Active</Badge>
+                      <Badge className="bg-success/20 text-success border-success/30">Active</Badge>
                     </div>
                     <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">Mobile App</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">iPhone • Last active 2 hours ago</p>
+                        <p className="font-medium text-text-primary">Mobile App</p>
+                        <p className="text-sm text-text-secondary">iPhone • Last active 2 hours ago</p>
                       </div>
-                      <Button variant="outline" size="sm" className="text-red-400 border-red-500/30 hover:bg-red-500/10">
+                      <Button variant="outline" size="sm" className="text-error border-error/30 hover:bg-error/10">
                         Revoke
                       </Button>
                     </div>

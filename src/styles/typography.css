@@ -1,0 +1,540 @@
+/* ===========================================
+   ENHANCED TYPOGRAPHY UTILITY CLASSES
+   =========================================== */
+
+/* Import theme variables */
+@import './theme.css';
+
+/* ===========================================
+   TYPOGRAPHY HIERARCHY - 5 LEVELS
+   =========================================== */
+
+/* Level 1: Largest - Extremely Important (Hero headings, main CTAs) */
+.text-1 {
+  font-size: var(--text-1-size);
+  font-weight: var(--text-1-weight);
+  line-height: var(--text-1-line-height);
+  letter-spacing: var(--text-1-spacing);
+  color: rgb(var(--text-1-color));
+  font-family: var(--font-family-display);
+}
+
+/* Level 2: Second Largest - Important Headings (Page titles, section headers) */
+.text-2 {
+  font-size: var(--text-2-size);
+  font-weight: var(--text-2-weight);
+  line-height: var(--text-2-line-height);
+  letter-spacing: var(--text-2-spacing);
+  color: rgb(var(--text-2-color));
+  font-family: var(--font-family-display);
+}
+
+/* Level 3: Medium - Section Headings (Sub-sections, card titles) */
+.text-3 {
+  font-size: var(--text-3-size);
+  font-weight: var(--text-3-weight);
+  line-height: var(--text-3-line-height);
+  letter-spacing: var(--text-3-spacing);
+  color: rgb(var(--text-3-color));
+  font-family: var(--font-family-display);
+}
+
+/* Level 4: Standard - Regular Body Text (Main content, descriptions) */
+.text-4 {
+  font-size: var(--text-4-size);
+  font-weight: var(--text-4-weight);
+  line-height: var(--text-4-line-height);
+  letter-spacing: var(--text-4-spacing);
+  color: rgb(var(--text-4-color));
+  font-family: var(--font-family-sans);
+}
+
+/* Level 5: Smallest - Secondary Information (Captions, labels, metadata) */
+.text-5 {
+  font-size: var(--text-5-size);
+  font-weight: var(--text-5-weight);
+  line-height: var(--text-5-line-height);
+  letter-spacing: var(--text-5-spacing);
+  color: rgb(var(--text-5-color));
+  font-family: var(--font-family-sans);
+}
+
+/* ===========================================
+   LEGACY HEADING UTILITIES (Backward Compatibility)
+   =========================================== */
+
+.h1 {
+  @apply text-2;
+}
+
+.h2 {
+  @apply text-2;
+}
+
+.h3 {
+  @apply text-3;
+}
+
+.h4 {
+  @apply text-3;
+}
+
+.h5 {
+  @apply text-4;
+}
+
+.h6 {
+  @apply text-4;
+}
+
+/* ===========================================
+   BODY TEXT UTILITIES
+   =========================================== */
+
+.body-large {
+  @apply text-4;
+}
+
+.body {
+  @apply text-4;
+}
+
+.body-small {
+  @apply text-5;
+}
+
+.body-xs {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgb(var(--color-text-muted));
+  font-family: var(--font-family-sans);
+}
+
+/* ===========================================
+   LABEL UTILITIES
+   =========================================== */
+
+.label-large {
+  @apply text-5;
+  font-weight: 500;
+}
+
+.label {
+  @apply text-5;
+  font-weight: 500;
+}
+
+.label-small {
+  @apply text-5;
+  font-weight: 400;
+}
+
+/* ===========================================
+   BUTTON TYPOGRAPHY UTILITIES
+   =========================================== */
+
+.btn-primary {
+  font-size: var(--button-primary-size);
+  font-weight: var(--button-primary-weight);
+  line-height: var(--button-primary-line-height);
+  color: rgb(var(--button-primary-color));
+  font-family: var(--font-family-sans);
+}
+
+.btn-secondary {
+  font-size: var(--button-secondary-size);
+  font-weight: var(--button-secondary-weight);
+  line-height: var(--button-secondary-line-height);
+  color: rgb(var(--button-secondary-color));
+  font-family: var(--font-family-sans);
+}
+
+.btn-small {
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  font-family: var(--font-family-sans);
+}
+
+/* ===========================================
+   CODE TYPOGRAPHY UTILITIES
+   =========================================== */
+
+.code {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: var(--font-family-mono);
+  color: rgb(var(--color-text-primary));
+  background-color: rgb(var(--color-background-muted));
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--radius-sm);
+}
+
+.code-inline {
+  @apply code;
+}
+
+.code-block {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: var(--font-family-mono);
+  color: rgb(var(--color-text-primary));
+  background-color: rgb(var(--color-background-muted));
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgb(var(--color-border));
+  display: block;
+}
+
+/* ===========================================
+   PRIORITY-BASED COLOR UTILITIES
+   =========================================== */
+
+/* Text Colors - Priority-based */
+.text-priority-1 { color: rgb(var(--color-text-primary)); }
+.text-priority-2 { color: rgb(var(--color-text-secondary)); }
+.text-priority-3 { color: rgb(var(--color-text-tertiary)); }
+.text-priority-4 { color: rgb(var(--color-text-muted)); }
+.text-priority-5 { color: rgb(var(--color-text-disabled)); }
+
+/* Background Colors - Priority-based */
+.bg-priority-1 { background-color: rgb(var(--color-white-1)); }
+.bg-priority-2 { background-color: rgb(var(--color-white-2)); }
+.bg-priority-3 { background-color: rgb(var(--color-white-3)); }
+.bg-priority-4 { background-color: rgb(var(--color-white-4)); }
+.bg-priority-5 { background-color: rgb(var(--color-white-5)); }
+
+/* Status Colors */
+.text-success { color: rgb(var(--color-success)); }
+.bg-success { background-color: rgb(var(--color-success)); }
+.text-warning { color: rgb(var(--color-warning)); }
+.bg-warning { background-color: rgb(var(--color-warning)); }
+.text-error { color: rgb(var(--color-error)); }
+.bg-error { background-color: rgb(var(--color-error)); }
+.text-info { color: rgb(var(--color-info)); }
+.bg-info { background-color: rgb(var(--color-info)); }
+
+/* ===========================================
+   ENHANCED SHADOW UTILITIES
+   =========================================== */
+
+.shadow-xs { box-shadow: var(--shadow-xs); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-2xl { box-shadow: var(--shadow-2xl); }
+.shadow-soft { box-shadow: var(--shadow-soft); }
+.shadow-glow { box-shadow: var(--shadow-glow); }
+.shadow-focus { box-shadow: var(--shadow-focus); }
+
+/* ===========================================
+   COMPONENT-SPECIFIC TYPOGRAPHY
+   =========================================== */
+
+/* Card Components - Priority-based */
+.card-priority-1 {
+  background-color: rgb(var(--color-white-1));
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgb(var(--color-border-light));
+  border-radius: var(--radius-lg);
+}
+
+.card-priority-2 {
+  background-color: rgb(var(--color-white-2));
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgb(var(--color-border));
+  border-radius: var(--radius-lg);
+}
+
+.card-priority-3 {
+  background-color: rgb(var(--color-white-3));
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgb(var(--color-border-muted));
+  border-radius: var(--radius-lg);
+}
+
+.card-title {
+  @apply text-3;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  @apply text-5;
+  margin-bottom: 1rem;
+}
+
+/* Form Components - Enhanced */
+.form-input {
+  background-color: rgb(var(--color-white-1));
+  border: 1px solid rgb(var(--color-border));
+  color: rgb(var(--form-input-color));
+  font-size: var(--form-input-size);
+  font-weight: var(--form-input-weight);
+  box-shadow: var(--shadow-xs);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: rgb(var(--color-focus));
+  box-shadow: var(--shadow-focus);
+  outline: none;
+}
+
+.form-label {
+  color: rgb(var(--form-label-color));
+  font-size: var(--form-label-size);
+  font-weight: var(--form-label-weight);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.form-description {
+  @apply text-5;
+  margin-top: 0.25rem;
+}
+
+.form-error {
+  @apply text-5;
+  color: rgb(var(--color-error));
+  margin-top: 0.25rem;
+}
+
+/* Button Components - Enhanced */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: rgb(var(--button-primary-color));
+  font-size: var(--button-primary-size);
+  font-weight: var(--button-primary-weight);
+  line-height: var(--button-primary-line-height);
+  box-shadow: var(--shadow-md);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: rgb(var(--color-white-1));
+  color: rgb(var(--button-secondary-color));
+  font-size: var(--button-secondary-size);
+  font-weight: var(--button-secondary-weight);
+  line-height: var(--button-secondary-line-height);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgb(var(--color-border));
+  border-radius: var(--radius-lg);
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  box-shadow: var(--shadow-md);
+  border-color: rgb(var(--color-border-dark));
+}
+
+/* Navigation Components */
+.nav-item {
+  color: rgb(var(--nav-item-color));
+  font-size: var(--nav-item-size);
+  font-weight: var(--nav-item-weight);
+  transition: color 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+}
+
+.nav-item:hover {
+  color: rgb(var(--color-text-secondary));
+  background-color: rgb(var(--color-hover));
+}
+
+.nav-item-active {
+  color: rgb(var(--nav-item-active-color));
+  font-weight: 600;
+  background-color: rgb(var(--color-selected) / 0.1);
+}
+
+/* Table Components */
+.table-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgb(var(--color-text-tertiary));
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--font-family-sans);
+  padding: 0.75rem 1rem;
+  background-color: rgb(var(--color-background-muted));
+}
+
+.table-cell {
+  @apply text-5;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgb(var(--color-border-muted));
+}
+
+/* Modal Components */
+.modal-title {
+  @apply text-2;
+  margin-bottom: 0.5rem;
+}
+
+.modal-description {
+  @apply text-5;
+  margin-bottom: 1.5rem;
+}
+
+/* Toast Components */
+.toast-title {
+  @apply text-5;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.toast-description {
+  @apply text-5;
+  opacity: 0.8;
+}
+
+/* Status Components */
+.status-success {
+  background-color: rgb(var(--color-success-bg));
+  color: rgb(var(--color-success));
+  border: 1px solid rgb(var(--color-success) / 0.2);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-lg);
+  @apply text-5;
+}
+
+.status-warning {
+  background-color: rgb(var(--color-warning-bg));
+  color: rgb(var(--color-warning));
+  border: 1px solid rgb(var(--color-warning) / 0.2);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-lg);
+  @apply text-5;
+}
+
+.status-error {
+  background-color: rgb(var(--color-error-bg));
+  color: rgb(var(--color-error));
+  border: 1px solid rgb(var(--color-error) / 0.2);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-lg);
+  @apply text-5;
+}
+
+.status-info {
+  background-color: rgb(var(--color-info-bg));
+  color: rgb(var(--color-info));
+  border: 1px solid rgb(var(--color-info) / 0.2);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-lg);
+  @apply text-5;
+}
+
+/* ===========================================
+   RESPONSIVE TYPOGRAPHY UTILITIES
+   =========================================== */
+
+/* Mobile-first responsive headings */
+@media (max-width: 640px) {
+  .responsive-text-1 {
+    font-size: 2.25rem;
+    line-height: 1.1;
+  }
+  
+  .responsive-text-2 {
+    font-size: 1.875rem;
+    line-height: 1.2;
+  }
+  
+  .responsive-text-3 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+}
+
+/* Tablet responsive headings */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .responsive-text-1 {
+    font-size: 3rem;
+    line-height: 1.1;
+  }
+  
+  .responsive-text-2 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+  }
+  
+  .responsive-text-3 {
+    font-size: 1.875rem;
+    line-height: 1.3;
+  }
+}
+
+/* Desktop responsive headings */
+@media (min-width: 1025px) {
+  .responsive-text-1 {
+    font-size: 3.75rem;
+    line-height: 1.1;
+  }
+  
+  .responsive-text-2 {
+    font-size: 3rem;
+    line-height: 1.2;
+  }
+  
+  .responsive-text-3 {
+    font-size: 2.25rem;
+    line-height: 1.3;
+  }
+}
+
+/* ===========================================
+   ACCESSIBILITY UTILITIES
+   =========================================== */
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus visible styles */
+.focus-visible {
+  outline: 2px solid rgb(var(--color-focus));
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .high-contrast {
+    --color-text-primary: 0 0 0;
+    --color-text-secondary: 0 0 0;
+    --color-border: 0 0 0;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe {
+    transition: none;
+    animation: none;
+  }
+}

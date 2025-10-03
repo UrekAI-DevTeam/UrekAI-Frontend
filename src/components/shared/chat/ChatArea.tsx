@@ -399,7 +399,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ chat, folder }) => {
               <FolderIcon className="h-3 w-3 sm:h-4 sm:w-4" />
               <span className="hidden sm:inline">{folder.name}</span>
             </div>
-            <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500" />
+            <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 text-text-muted" />
           </>
         )}
         <div className="flex items-center gap-2 bg-yellow-100 text-yellow-800 px-2 sm:px-3 py-1 rounded-xl text-xs sm:text-sm font-medium">

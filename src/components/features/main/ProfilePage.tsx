@@ -148,7 +148,7 @@ export function ProfilePage() {
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-600 dark:text-gray-600 dark:text-white/70 mb-1 block">Email</label>
+                      <label className="text-sm font-medium text-text-secondary mb-1 block">Email</label>
                       <Input
                         type="email"
                         value={profileData.email}
@@ -161,7 +161,7 @@ export function ProfilePage() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-gray-600 dark:text-gray-600 dark:text-white/70 mb-1 block">Phone Number</label>
+                      <label className="text-sm font-medium text-text-secondary mb-1 block">Phone Number</label>
                       <Input
                         value={profileData.phone}
                         onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
@@ -170,7 +170,7 @@ export function ProfilePage() {
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-600 dark:text-gray-600 dark:text-gray-900 dark:text-white/70 mb-1 block">Location</label>
+                      <label className="text-sm font-medium text-text-secondary mb-1 block">Location</label>
                       <Input
                         value={profileData.location}
                         onChange={(e) => setProfileData({...profileData, location: e.target.value})}
@@ -182,7 +182,7 @@ export function ProfilePage() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-gray-600 dark:text-gray-600 dark:text-gray-900 dark:text-white/70 mb-1 block">Role</label>
+                      <label className="text-sm font-medium text-text-secondary mb-1 block">Role</label>
                       <Input
                         value={profileData.role}
                         onChange={(e) => setProfileData({...profileData, role: e.target.value})}
@@ -191,7 +191,7 @@ export function ProfilePage() {
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-600 dark:text-gray-600 dark:text-gray-900 dark:text-white/70 mb-1 block">Company</label>
+                      <label className="text-sm font-medium text-text-secondary mb-1 block">Company</label>
                       <Input
                         value={profileData.company}
                         onChange={(e) => setProfileData({...profileData, company: e.target.value})}
@@ -203,10 +203,10 @@ export function ProfilePage() {
 
                   {isEditing && (
                     <div className="flex gap-3 pt-4">
-                      <Button onClick={handleSave} className="bg-gradient-to-r from-blood-red to-crimson text-gray-900 dark:text-white hover:shadow-lg hover:shadow-blood-red/20">
+                      <Button onClick={handleSave} className="bg-gradient-to-r from-blood-red to-crimson text-text-white hover:shadow-lg hover:shadow-blood-red/20">
                         Save Changes
                       </Button>
-                      <Button variant="outline" onClick={() => setIsEditing(false)} className="text-gray-700 dark:text-gray-900 dark:text-white border-gray-200 dark:border-white/20 hover:bg-gray-100 dark:hover:bg-white/10">
+                      <Button variant="outline" onClick={() => setIsEditing(false)} className="text-text-primary border-border hover:bg-hover">
                         Cancel
                       </Button>
                     </div>
@@ -221,33 +221,33 @@ export function ProfilePage() {
         <div className="space-y-6">
           <Card className="shadow-lg bg-surface backdrop-blur-xl rounded-2xl border border-border">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-gray-900 dark:text-white">Account Details</CardTitle>
+              <CardTitle className="text-text-primary">Account Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-gray-400 dark:text-gray-900 dark:text-white/40" />
+                <Calendar className="w-5 h-5 text-text-muted" />
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Member Since</p>
-                  <p className="font-medium text-gray-900 dark:text-white">{profileData.joinDate}</p>
+                  <p className="text-sm text-text-secondary">Member Since</p>
+                  <p className="font-medium text-text-primary">{profileData.joinDate}</p>
                 </div>
               </div>
               
               <div className="flex items-center gap-3">
-                <Shield className="w-5 h-5 text-gray-400 dark:text-gray-900 dark:text-white/40" />
+                <Shield className="w-5 h-5 text-text-muted" />
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Plan</p>
+                  <p className="text-sm text-text-secondary">Plan</p>
                   <div className="flex items-center gap-2">
-                  <p className="font-medium text-gray-900 dark:text-white">Pro Plan</p>
+                  <p className="font-medium text-text-primary">Pro Plan</p>
                     <Badge className="bg-primary/10 text-primary border border-primary/20">Active</Badge>
                   </div>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <Bell className="w-5 h-5 text-gray-400 dark:text-gray-900 dark:text-white/40" />
+                <Bell className="w-5 h-5 text-text-muted" />
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Notifications</p>
-                  <p className="font-medium text-gray-900 dark:text-white">Enabled</p>
+                  <p className="text-sm text-text-secondary">Notifications</p>
+                  <p className="font-medium text-text-primary">Enabled</p>
                 </div>
               </div>
             </CardContent>
@@ -255,18 +255,18 @@ export function ProfilePage() {
 
           <Card className="border-0 shadow-lg bg-surface backdrop-blur-xl rounded-2xl border border-border">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">Quick Actions</CardTitle>
+              <CardTitle className="text-text-primary">Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full justify-start gap-2 text-gray-900 dark:text-white border-gray-200 dark:border-white/20 hover:bg-gray-100 dark:hover:bg-white/10">
+              <Button variant="outline" className="w-full justify-start gap-2 text-text-primary border-border hover:bg-hover">
                 <Shield className="w-4 h-4" />
                 Security Settings
               </Button>
-              <Button variant="outline" className="w-full justify-start gap-2 text-gray-900 dark:text-white border-gray-200 dark:border-white/20 hover:bg-gray-100 dark:hover:bg-white/10">
+              <Button variant="outline" className="w-full justify-start gap-2 text-text-primary border-border hover:bg-hover">
                 <Bell className="w-4 h-4" />
                 Notification Preferences
               </Button>
-              <Button variant="outline" className="w-full justify-start gap-2 text-gray-900 dark:text-white border-gray-200 dark:border-white/20 hover:bg-gray-100 dark:hover:bg-white/10">
+              <Button variant="outline" className="w-full justify-start gap-2 text-text-primary border-border hover:bg-hover">
                 <User className="w-4 h-4" />
                 Privacy Settings
               </Button>
@@ -279,8 +279,8 @@ export function ProfilePage() {
       <div className="grid lg:grid-cols-2 gap-6">
         <Card className="border-0 shadow-lg bg-surface backdrop-blur-xl rounded-2xl border border-border">
           <CardHeader>
-            <CardTitle className="text-gray-900 dark:text-white">Your Statistics</CardTitle>
-            <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Track your usage and productivity metrics</CardDescription>
+            <CardTitle className="text-text-primary">Your Statistics</CardTitle>
+            <CardDescription className="text-text-secondary">Track your usage and productivity metrics</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-6">
@@ -291,8 +291,8 @@ export function ProfilePage() {
                     <div className="w-16 h-16 bg-gradient-to-br from-blood-red/20 to-crimson/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
                       <Icon className="w-8 h-8 text-blood-red" />
                     </div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">{stat.label}</div>
+                    <div className="text-2xl font-bold text-text-primary">{stat.value}</div>
+                    <div className="text-sm text-text-secondary">{stat.label}</div>
                   </div>
                 );
               })}
@@ -302,15 +302,15 @@ export function ProfilePage() {
 
         <Card className="border-0 shadow-lg bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
           <CardHeader>
-            <CardTitle className="text-gray-900 dark:text-white">Manage Subscription</CardTitle>
-            <CardDescription className="text-gray-600 dark:text-gray-900 dark:text-white/70">Monitor credits and update plan</CardDescription>
+            <CardTitle className="text-text-primary">Manage Subscription</CardTitle>
+            <CardDescription className="text-text-secondary">Monitor credits and update plan</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-600 dark:text-gray-900 dark:text-white/70">Credits Remaining</span>
-                  <span className="text-sm font-medium text-gray-900 dark:text-white">72 / 100</span>
+                  <span className="text-sm text-text-secondary">Credits Remaining</span>
+                  <span className="text-sm font-medium text-text-primary">72 / 100</span>
                 </div>
                 <div className="w-full h-3 rounded-full bg-muted overflow-hidden border border-border">
                   <div className="h-full w-[72%] bg-primary"></div>

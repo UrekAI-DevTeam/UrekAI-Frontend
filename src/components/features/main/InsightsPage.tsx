@@ -143,10 +143,10 @@ export function InsightsPage() {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'bg-red-500/20 text-red-300 border-red-500/30';
-      case 'medium': return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
-      case 'low': return 'bg-green-500/20 text-green-300 border-green-500/30';
-      default: return 'bg-surface-secondary text-text-muted border-border';
+      case 'high': return 'bg-error/20 text-error border-error/30';
+      case 'medium': return 'bg-warning/20 text-warning border-warning/30';
+      case 'low': return 'bg-success/20 text-success border-success/30';
+      default: return 'bg-background-surface-secondary text-text-muted border-border';
     }
   };
 
@@ -191,7 +191,7 @@ export function InsightsPage() {
                   <div className="flex-1 flex flex-col">
                     <p className="text-xs font-medium text-text-muted uppercase tracking-wide mb-2">{stat.label}</p>
                     <p className="text-3xl font-bold text-text-primary mb-2">{stat.value}</p>
-                    <p className="text-sm text-green-500 font-medium">{stat.change}</p>
+                    <p className="text-sm text-success font-medium">{stat.change}</p>
                   </div>
                   <div className="w-12 h-12 bg-gradient-to-br from-blood-red/20 to-crimson/20 rounded-xl flex items-center justify-center ml-4">
                     <Icon className="w-6 h-6 text-blood-red" />
@@ -270,7 +270,7 @@ export function InsightsPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <CardTitle className="text-lg text-gray-900 dark:text-white">{insight.title}</CardTitle>
+                        <CardTitle className="text-lg text-text-primary">{insight.title}</CardTitle>
                         <Badge className={getPriorityColor(insight.priority)}>
                           {insight.priority} priority
                         </Badge>
@@ -278,15 +278,15 @@ export function InsightsPage() {
                           {insight.confidence}% confidence
                         </Badge>
                       </div>
-                      <CardDescription className="text-sm leading-relaxed text-gray-600 dark:text-white/70">
+                      <CardDescription className="text-sm leading-relaxed text-text-secondary">
                         {insight.description}
                       </CardDescription>
                     </div>
                   </div>
                   <div className="text-right">
                     <div className={`text-lg font-semibold ${
-                      insight.metrics.direction === 'up' ? 'text-green-400' : 
-                      insight.metrics.direction === 'down' ? 'text-red-400' : 'text-gray-600 dark:text-white/70'
+                      insight.metrics.direction === 'up' ? 'text-success' : 
+                      insight.metrics.direction === 'down' ? 'text-error' : 'text-text-secondary'
                     }`}>
                       {insight.metrics.change}
                     </div>
@@ -296,7 +296,7 @@ export function InsightsPage() {
 
               <CardContent>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-white/70">
+                  <div className="flex items-center gap-4 text-sm text-text-secondary">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       {insight.timestamp}
@@ -343,9 +343,9 @@ export function InsightsPage() {
       {filteredInsights.length === 0 && (
         <Card>
           <CardContent className="p-12 text-center">
-            <BarChart3 className="w-16 h-16 text-gray-400 dark:text-white/40 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No insights found</h3>
-            <p className="text-gray-600 dark:text-white/70 mb-6 text-sm">
+            <BarChart3 className="w-16 h-16 text-text-muted mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-text-primary mb-2">No insights found</h3>
+            <p className="text-text-secondary mb-6 text-sm">
               Try adjusting your search criteria or upload new data to generate insights.
             </p>
             <Button size="md">

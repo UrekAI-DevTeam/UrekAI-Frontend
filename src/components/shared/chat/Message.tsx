@@ -61,11 +61,11 @@ export const Message: React.FC<MessageProps> = ({ message }) => {
       <div className="flex justify-center my-4">
         <div className={`border rounded-2xl px-4 py-2 max-w-md ${
           message.isError 
-            ? 'bg-red-50 border-red-200' 
-            : 'bg-green-50 border-green-200'
+            ? 'bg-error/10 border-error/20' 
+            : 'bg-success/10 border-success/20'
         }`}>
           <p className={`text-sm text-center ${
-            message.isError ? 'text-red-700' : 'text-green-700'
+            message.isError ? 'text-error' : 'text-success'
           }`}>
             {typeof message.content === 'string' ? message.content : 'System message'}
           </p>
@@ -80,14 +80,14 @@ export const Message: React.FC<MessageProps> = ({ message }) => {
         <div className="flex max-w-3xl">
           {/* Avatar */}
           <div className="flex-shrink-0 mr-3">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-500">
-              <div className="w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-background-muted text-text-muted">
+              <div className="w-4 h-4 border-2 border-text-muted border-t-transparent rounded-full animate-spin"></div>
             </div>
           </div>
 
           {/* Message Content */}
           <div className="flex flex-col items-start">
-            <div className="rounded-2xl px-4 py-3 max-w-full bg-gray-50 border border-gray-200 text-gray-700">
+            <div className="rounded-2xl px-4 py-3 max-w-full bg-background-muted border border-border text-text-secondary">
               <p className="text-sm italic whitespace-pre-wrap">
                 {/* {typeof message.content === 'string' ? message.content : 'Thinking...'} */}
                 {typeof message.content === 'string' ? (
@@ -99,9 +99,9 @@ export const Message: React.FC<MessageProps> = ({ message }) => {
 
               {/* Three Dots Loading */}
               <div className="mt-1">
-                <span className="inline-block w-1 h-1 mx-0.5 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                <span className="inline-block w-1 h-1 mx-0.5 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                <span className="inline-block w-1 h-1 mx-0.5 bg-gray-400 rounded-full animate-bounce"></span>
+                <span className="inline-block w-1 h-1 mx-0.5 bg-text-muted rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                <span className="inline-block w-1 h-1 mx-0.5 bg-text-muted rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                <span className="inline-block w-1 h-1 mx-0.5 bg-text-muted rounded-full animate-bounce"></span>
               </div>
             </div>
 
@@ -131,7 +131,7 @@ export const Message: React.FC<MessageProps> = ({ message }) => {
     return element;
   }
 
-  return <p className="text-sm text-gray-500">Unable to display message content</p>;
+  return <p className="text-sm text-text-muted">Unable to display message content</p>;
 };
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-6`}>
@@ -139,7 +139,7 @@ export const Message: React.FC<MessageProps> = ({ message }) => {
         {/* Avatar */}
         <div className={`flex-shrink-0 ${isUser ? 'ml-3' : 'mr-3'}`}>
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-            isUser ? 'bg-primary text-white' : 'bg-gray-100 text-text-muted'
+            isUser ? 'bg-primary text-white' : 'bg-background-muted text-text-muted'
           }`}>
             {isUser ? <User className="h-4 w-4" /> : <Brain className="h-4 w-4" />}
           </div>

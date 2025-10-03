@@ -105,7 +105,23 @@ export const useChatStore = create<ChatStore>()(
             }
           }));
         } catch (error) {
-          console.error('Failed to load chat data:', error);
+          console.log('Firebase not available, loading from local storage');
+          // Load from local storage as fallback
+          const existingChats = JSON.parse(localStorage.getItem('urekai-chats') || '[]');
+          const chat = existingChats.find((c: any) => c.id === chatId);
+          if (chat) {
+            set((state) => ({
+              chats: {
+                ...state.chats,
+                [chatId]: {
+                  ...state.chats[chatId],
+                  messages: chat.messages || [],
+                  attachedFiles: [],
+                  isLoaded: true
+                }
+              }
+            }));
+          }
         }
       },
 
@@ -119,7 +135,16 @@ export const useChatStore = create<ChatStore>()(
             messages: []
           };
 
-          await saveChat(chatData, folderId);
+          // Try to save to Firebase, fallback to local storage
+          try {
+            await saveChat(chatData, folderId);
+          } catch (firebaseError) {
+            console.log('Firebase not available, saving to local storage');
+            // Save to local storage as fallback
+            const existingChats = JSON.parse(localStorage.getItem('urekai-chats') || '[]');
+            existingChats.push(chatData);
+            localStorage.setItem('urekai-chats', JSON.stringify(existingChats));
+          }
           
           set((state) => ({
             chats: {
@@ -207,8 +232,24 @@ export const useChatStore = create<ChatStore>()(
 
       addMessage: async (chatId, message, thinkingMsg = false) => {
         try {
-          if(!thinkingMsg)
-            await saveMessage(chatId, message);
+          if(!thinkingMsg) {
+            try {
+              await saveMessage(chatId, message);
+            } catch (firebaseError) {
+              console.log('Firebase not available, saving message to local storage');
+              // Save message to local storage as fallback
+              const existingChats = JSON.parse(localStorage.getItem('urekai-chats') || '[]');
+              const chatIndex = existingChats.findIndex((chat: any) => chat.id === chatId);
+              if (chatIndex !== -1) {
+                if (!existingChats[chatIndex].messages) {
+                  existingChats[chatIndex].messages = [];
+                }
+                existingChats[chatIndex].messages.push(message);
+                existingChats[chatIndex].updatedAt = new Date().toISOString();
+                localStorage.setItem('urekai-chats', JSON.stringify(existingChats));
+              }
+            }
+          }
           
           set((state) => ({
             chats: {
@@ -221,7 +262,18 @@ export const useChatStore = create<ChatStore>()(
           }));
 
           // Update chat's updatedAt timestamp
-          await updateChat(chatId, { updatedAt: new Date().toISOString() });
+          try {
+            await updateChat(chatId, { updatedAt: new Date().toISOString() });
+          } catch (firebaseError) {
+            console.log('Firebase not available, updating local storage');
+            // Update local storage
+            const existingChats = JSON.parse(localStorage.getItem('urekai-chats') || '[]');
+            const chatIndex = existingChats.findIndex((chat: any) => chat.id === chatId);
+            if (chatIndex !== -1) {
+              existingChats[chatIndex].updatedAt = new Date().toISOString();
+              localStorage.setItem('urekai-chats', JSON.stringify(existingChats));
+            }
+          }
         } catch (error) {
           console.error('Failed to add message:', error);
           throw error;
