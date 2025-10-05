@@ -8,10 +8,10 @@ interface ServerApiOptions {
   credentials?: RequestCredentials; 
 }
 
-export async function serverApiRequest<T = any>(
+export async function serverApiRequest<T = Response>(
   path: string,
   options: ServerApiOptions = {}
-): Promise<T> {
+): Promise<Response>  {
   const {
     method = "GET",
     body,
