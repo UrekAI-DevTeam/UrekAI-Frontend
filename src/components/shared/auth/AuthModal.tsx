@@ -8,6 +8,7 @@ import { useAuthStore } from '@/state/authStore';
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { FastAPIAuthError } from '@/types';
 import { AxiosError } from 'axios';
+import { googleAuthCallback } from '@/services/api/auth';
 
 interface PasswordValidation {
   minLength: boolean;
@@ -45,7 +46,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [showPasswordValidation, setShowPasswordValidation] = useState(false);
   const router = useRouter();
 
-  const { login, signup, isLoading } = useAuthStore();
+  const { login, signup, googleLogin, isLoading } = useAuthStore();
 
   const validatePassword = (password: string): PasswordValidation => {
     return {
@@ -104,30 +105,44 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setErrors({ general: message });
     }
   };
+    
+  useEffect(() => {
+    const handleCallback = async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+        const storedState = sessionStorage.getItem('oauth_state');
+        const codeVerifier = sessionStorage.getItem('oauth_code_verifier');
+        
+        if (code && state && storedState && codeVerifier) {
+          if (state !== storedState) {
+            console.error('State mismatch. Possible CSRF attack.');
+            // onError('Authentication failed: Invalid state.');
+            // Add alert here or something.
+            return;
+          }
 
-  // const handleGoogleLogin = useGoogleLogin({
-  //   flow: "auth-code",
-  //   onSuccess: async (codeResponse) => {
-  //     try {
-  //       const authCode = codeResponse.code;   // 👈 this is what you get
-  //       await googleLogin(authCode);          // send code to FastAPI backend
-  //       onClose();
-  //       navigate('/dashboard');
-  //     } catch (error: unknown) {
-  //       const axiosError = error as AxiosError<FastAPIAuthError>;
-  //       const message =
-  //         axiosError.response?.data?.detail || "An error occurred. Try again.";
-
-  //       setErrors({ general: message });
-  //     }
-  //   },
-  //   onError: (error: unknown) => {
-  //     console.error("Google login error:", error);
-  //     setErrors({
-  //       general: "An error occurred during Google login. Please try again.",
-  //     });
-  //   },
-  // });
+          try {
+            const data = await googleAuthCallback(code, codeVerifier);                        
+            sessionStorage.removeItem('oauth_state');
+            sessionStorage.removeItem('oauth_code_verifier');
+            
+            router.replace(window.location.pathname);  // Clearing query params from URL without reloading the page
+            googleLogin(data)
+            router.push('/dashboard');
+            console.log("Google Login Successfull");
+          } catch (error) {
+            console.error('Google login callback error:', error);
+            // onError('Google login failed. Please try again.');
+            // Add alert here or something.
+          } finally {
+            onClose();
+          }
+      };
+    };
+    handleCallback();
+    // setIsClient(true);
+  }, []);
 
   // Handle Google login error
   const handleGoogleError = (error: string) => {

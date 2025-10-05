@@ -1,111 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { serverApiRequest } from '@/utils/serverAPI';
 
 const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://urekaibackendpython.onrender.com';
 
-export async function postGoogleAuth(request: NextRequest) {
+export async function googleAuthCallback(code: string, codeVerifier: string) {
   try {
-    const body = await request.json();
-    const { code, auth_code, access_token, redirect_uri } = body;
-
-    const authCode = code || auth_code;
-    const accessToken = access_token;
-
-    if (!authCode && !accessToken) {
-      return NextResponse.json({ error: 'Authorization code or access token is required' }, { status: 400 });
-    }
-
-    let requestBody: Record<string, string>;
-
-    if (accessToken) {
-      requestBody = {
-        access_token: accessToken,
-        redirect_uri: redirect_uri || request.headers.get('origin') || 'http://localhost:3000'
-      };
-    } else {
-      requestBody = {
-        code: authCode,
-        redirect_uri: redirect_uri || request.headers.get('origin') || 'http://localhost:3000'
-      };
-    }
-
-    let response = await fetch(`${backendUrl}/v1/api/users/auth/google`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok) {
-      const requestBody2 = accessToken ? {
-        auth_code: accessToken,
-        redirect_uri: redirect_uri || request.headers.get('origin') || 'http://localhost:3000'
-      } : {
-        auth_code: authCode,
-        redirect_uri: redirect_uri || request.headers.get('origin') || 'http://localhost:3000'
-      };
-
-      response = await fetch(`${backendUrl}/v1/api/users/auth/google`, {
+    const response = await serverApiRequest('/v1/api/users/auth/callback/google', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(requestBody2),
+        headers: { 'Content-Type': 'application/json' },
+        body: { code: code, code_verifier: codeVerifier }
       });
-    }
-
     if (!response.ok) {
-      const errorText = await response.text();
-      return NextResponse.json({ 
-        error: 'Google authentication failed', 
-        details: errorText,
-        status: response.status 
-      }, { status: response.status });
+      throw new Error('Google authentication callback failed');
     }
-
     const data = await response.json();
-
-    // Normalize the payload to always include { id, email, name, picture }
-    const base: any = data?.user ?? data ?? {};
-
-    // Try common photo fields from backend
-    let picture: string | undefined =
-      base.picture || base.avatar || base.avatar_url || base.photoURL || base.photo_url || base.image;
-
-    // If missing and we have an access token, enrich from Google userinfo
-    if (!picture && accessToken) {
-      try {
-        const gi = await fetch('https://openidconnect.googleapis.com/v1/userinfo', {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        if (gi.ok) {
-          const gu = await gi.json();
-          if (gu?.picture) picture = String(gu.picture);
-        }
-      } catch {}
-    }
-
-    const normalized = {
-      id: String(base.id ?? base.sub ?? ''),
-      email: String(base.email ?? ''),
-      name: String(base.name ?? base.given_name ?? base.preferred_username ?? 'Google User'),
-      picture: picture ? String(picture) : '',
-    };
-
-    const cookies = response.headers.get('set-cookie');
-    if (cookies) {
-      const responseWithCookies = NextResponse.json(normalized);
-      responseWithCookies.headers.set('set-cookie', cookies);
-      return responseWithCookies;
-    }
-
-    return NextResponse.json(normalized);
+    return data;
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error("Google authentication error:", error);
+    throw error;
   }
 }
 

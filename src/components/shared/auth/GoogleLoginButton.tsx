@@ -1,60 +1,81 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { useGoogleLogin, TokenResponse } from '@react-oauth/google';
 import { Button } from '@/components/ui/Button';
 import { useAuthStore } from '@/state/authStore';
 import { useRouter } from 'next/navigation';
-import { FastAPIAuthError } from '@/types';
-import { AxiosError } from 'axios';
 
 interface GoogleLoginButtonProps {
   onClose: () => void;
   onError: (error: string) => void;
 }
 
+function generateRandomString(length: number): string {
+  const array = new Uint8Array(length);
+  window.crypto.getRandomValues(array);
+  return Array.from(array, (byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function sha256(plain: string): Promise<ArrayBuffer> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(plain);
+  return window.crypto.subtle.digest('SHA-256', data);
+}
+
+function base64urlencode(buffer: ArrayBuffer): string {
+  return btoa(String.fromCharCode(...new Uint8Array(buffer)))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+}
+
 export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ 
   onClose, 
   onError 
 }) => {
-  const [isClient, setIsClient] = useState(false);
+  // const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const { googleLogin } = useAuthStore();
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string | undefined;
+  const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  
 
-  const handleGoogleLogin = useGoogleLogin({
-    flow: 'implicit',
-    onSuccess: async (tokenResponse: TokenResponse) => {
-      try {
-        if (process.env.NODE_ENV !== 'production') console.log('Google access token received successfully');
-        await googleLogin(tokenResponse.access_token);
-        if (process.env.NODE_ENV !== 'production') console.log('Google login completed, closing modal and redirecting...');
-        onClose();
-        if (process.env.NODE_ENV !== 'production') console.log('Modal closed, waiting for auth state to update...');
-        setTimeout(() => {
-          if (process.env.NODE_ENV !== 'production') console.log('Pushing to dashboard...');
-          router.push('/dashboard');
-          if (process.env.NODE_ENV !== 'production') console.log('Redirect initiated to dashboard');
-        }, 100);
-      } catch (error: unknown) {
-        if (process.env.NODE_ENV !== 'production') console.error('Google login error:', error);
-        const axiosError = error as AxiosError<FastAPIAuthError>;
-        const message =
-          axiosError.response?.data?.detail || 'An error occurred. Try again.';
-        onError(message);
-      }
-    },
-    onError: (error: unknown) => {
-      if (process.env.NODE_ENV !== 'production') console.error('Google login error:', error);
-      onError('An error occurred during Google login. Please try again.');
-    },
-    scope: 'openid email profile',
-  });
+  const handleGoogleLogin = async () => {
+    try {
+      // 1. Generating security tokens
+      const state = generateRandomString(32);
+      const codeVerifier = generateRandomString(128);
+      const codeChallengeBuffer = await sha256(codeVerifier);
+      const codeChallenge = base64urlencode(codeChallengeBuffer);
+      
+      // 2. Storing tokens for later verification
+      sessionStorage.setItem('oauth_state', state);
+      sessionStorage.setItem('oauth_code_verifier', codeVerifier);
 
-  if (!isClient || !clientId) {
+      // 3. Constructing the Google Authorization URL
+      const authUrlParams = new URLSearchParams({
+        response_type: 'code',
+        client_id: clientId!,
+        redirect_uri: redirectUri!,
+        scope: 'openid profile email',
+        state: state,
+        code_challenge: codeChallenge,
+        code_challenge_method: 'S256',
+      });
+      
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${authUrlParams.toString()}`;
+
+      // 4. Redirecting the user to Google
+      window.location.href = authUrl;
+
+    } catch (error) {
+      console.error('Login failed:', error);
+      onError('Google login failed. Please try again.');
+    }
+  };
+
+  // if (!isClient || !clientId) {
+  if (!clientId) {
     return null;
   }
 

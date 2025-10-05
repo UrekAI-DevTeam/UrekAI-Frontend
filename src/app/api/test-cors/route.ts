@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCorsTest, optionsCorsTest } from '@/services/routes/chat';
+import { getCorsTest, optionsCorsTest } from '@/services/api/chat';
 
 export async function GET() {
   return getCorsTest();

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCheckUser } from '@/services/routes/auth';
+import { getCheckUser } from '@/services/api/auth';
 
 export async function GET(request: NextRequest) {
   try {

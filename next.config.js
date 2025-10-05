@@ -76,7 +76,11 @@ const nextConfig = {
                 // Content Security Policy
                 {
                   key: 'Content-Security-Policy',
+<<<<<<< Updated upstream
                   value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://accounts.google.com https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://urekaibackendpython.onrender.com wss://urekaibackendpython.onrender.com https://www.googleapis.com https://firestore.googleapis.com https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; frame-src 'self' https://accounts.google.com;",
+=======
+                  value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://accounts.google.com https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' http://127.0.0.1:10000 https://urekaibackendpython.onrender.com wss://urekaibackendpython.onrender.com https://www.googleapis.com; frame-src 'self' https://accounts.google.com;",
+>>>>>>> Stashed changes
                 },
               ],
             },

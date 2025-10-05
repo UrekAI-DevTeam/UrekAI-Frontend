@@ -11,7 +11,7 @@ import { sessionManager, SessionData } from '@/utils/sessionManager';
 interface AuthStore extends AuthState {
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
-  googleLogin: (authCodeOrToken: string) => Promise<void>;
+  googleLogin: (profile: User) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   setUser: (user: User | null) => void;
@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthStore>()(
           const mockUser: User = {
             id: Date.now().toString(),
             name: email.split('@')[0],
-            email: email,
+            email: email
           };
           
           set({ 
@@ -56,7 +56,7 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
 
-      signup: async (name: string, email: string, password: string) => {
+      signup: async (name: string, email: string, password: string, firebase_token?: string) => {
         set({ isLoading: true });
         try {
           // For now, create a mock user since API is commented out
@@ -64,6 +64,8 @@ export const useAuthStore = create<AuthStore>()(
             id: Date.now().toString(),
             name: name,
             email: email,
+            // avatar: ,
+            firebase_token: firebase_token
           };
           
           set({ 
@@ -86,32 +88,15 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
 
-      googleLogin: async (accessToken: string) => {
+      googleLogin: async (profile) => {
         set({ isLoading: true });
         try {
-          if (process.env.NODE_ENV !== 'production') console.log('Google login: Starting authentication via backend...');
-
-          // Delegate token exchange and profile fetch to backend to respect CSP
-          const response = await fetch('/api/auth/google', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ access_token: accessToken, redirect_uri: window.location.origin })
-          });
-
-          if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(errorText || 'Google authentication failed');
-          }
-
-          const data = await response.json();
-          const profile = data?.user || data; // normalize
-
           const googleUser: User = {
             id: profile.id || Date.now().toString(),
-            name: profile.name || profile.given_name || 'Google User',
+            name: profile.name || 'Google User',
             email: profile.email || 'user@gmail.com',
-            avatar: profile.picture,
+            avatar: profile.avatar,
+            firebase_token: profile.firebase_token
           };
 
           set({ 
