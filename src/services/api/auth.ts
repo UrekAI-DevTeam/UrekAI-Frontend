@@ -6,17 +6,18 @@ const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://urekaibackendpyth
 export async function googleAuthCallback(code: string, codeVerifier: string) {
   try {
     const response = await serverApiRequest('/v1/api/users/auth/callback/google', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: { code: code, code_verifier: codeVerifier }
-      });
-    if (!response.ok) {
-      throw new Error('Google authentication callback failed');
-    }
+      method: 'POST',
+      body: { 
+        code: code, 
+        code_verifier: codeVerifier 
+      },
+      credentials: 'include' // Ensure cookies are sent/received
+    });
+    
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Google authentication error:", error);
+    console.error("Google authentication callback error:", error);
     throw error;
   }
 }

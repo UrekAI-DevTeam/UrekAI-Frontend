@@ -36,12 +36,17 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
   const router = useRouter();
   const { googleLogin } = useAuthStore();
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string | undefined;
-  const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
+  const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI || (typeof window !== 'undefined' ? window.location.origin : '');
 
   
 
   const handleGoogleLogin = async () => {
     try {
+      if (!redirectUri) {
+        onError('Redirect URI is not configured. Please contact support.');
+        return;
+      }
+
       // 1. Generating security tokens
       const state = generateRandomString(32);
       const codeVerifier = generateRandomString(128);
@@ -56,7 +61,7 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
       const authUrlParams = new URLSearchParams({
         response_type: 'code',
         client_id: clientId!,
-        redirect_uri: redirectUri!,
+        redirect_uri: redirectUri,
         scope: 'openid profile email',
         state: state,
         code_challenge: codeChallenge,

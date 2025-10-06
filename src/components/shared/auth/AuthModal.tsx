@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useAuthStore } from '@/state/authStore';
 import { GoogleLoginButton } from './GoogleLoginButton';
-import { FastAPIAuthError } from '@/types';
-import { AxiosError } from 'axios';
 import { googleAuthCallback } from '@/services/api/auth';
 
 interface PasswordValidation {
@@ -98,14 +96,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       router.push('/dashboard');
     } catch (error: unknown) {
       console.error('Auth error:', error);
-      const axiosError = error as AxiosError<FastAPIAuthError>;
-      const message =
-      axiosError.response?.data?.detail || 'An error occurred. Try again.';
+      // Extract error message from Error object
+      const message = error instanceof Error 
+        ? error.message 
+        : 'An error occurred. Please try again.';
 
       setErrors({ general: message });
     }
   };
     
+  // Handle Google OAuth callback on component mount (runs on page load after redirect)
   useEffect(() => {
     const handleCallback = async () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -114,35 +114,55 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         const storedState = sessionStorage.getItem('oauth_state');
         const codeVerifier = sessionStorage.getItem('oauth_code_verifier');
         
-        if (code && state && storedState && codeVerifier) {
-          if (state !== storedState) {
-            console.error('State mismatch. Possible CSRF attack.');
-            // onError('Authentication failed: Invalid state.');
-            // Add alert here or something.
-            return;
-          }
+        // Only process if we have OAuth callback params
+        if (!code || !state || !storedState || !codeVerifier) {
+          return;
+        }
 
-          try {
-            const data = await googleAuthCallback(code, codeVerifier);                        
-            sessionStorage.removeItem('oauth_state');
-            sessionStorage.removeItem('oauth_code_verifier');
-            
-            router.replace(window.location.pathname);  // Clearing query params from URL without reloading the page
-            googleLogin(data)
-            router.push('/dashboard');
-            console.log("Google Login Successfull");
-          } catch (error) {
-            console.error('Google login callback error:', error);
-            // onError('Google login failed. Please try again.');
-            // Add alert here or something.
-          } finally {
-            onClose();
+        // Validate CSRF protection
+        if (state !== storedState) {
+          console.error('State mismatch. Possible CSRF attack.');
+          sessionStorage.removeItem('oauth_state');
+          sessionStorage.removeItem('oauth_code_verifier');
+          return;
+        }
+
+        try {
+          console.log('Processing Google OAuth callback...');
+          
+          // Exchange code for tokens
+          const data = await googleAuthCallback(code, codeVerifier);
+          
+          // Clean up session storage
+          sessionStorage.removeItem('oauth_state');
+          sessionStorage.removeItem('oauth_code_verifier');
+          
+          // Clear query params from URL without reloading
+          window.history.replaceState({}, document.title, window.location.pathname);
+          
+          // Complete login with backend data
+          await googleLogin(data);
+          
+          console.log('Google Login Successful - Redirecting to dashboard');
+          
+          // Navigate to dashboard after successful login
+          router.push('/dashboard');
+        } catch (error) {
+          console.error('Google login callback error:', error);
+          
+          // Clean up session storage on error
+          sessionStorage.removeItem('oauth_state');
+          sessionStorage.removeItem('oauth_code_verifier');
+          
+          // Show error to user (only if modal is open)
+          if (isOpen) {
+            setErrors({ general: 'Google login failed. Please try again.' });
           }
-      };
+        }
     };
+    
     handleCallback();
-    // setIsClient(true);
-  }, []);
+  }, [router, googleLogin, isOpen]);
 
   // Handle Google login error
   const handleGoogleError = (error: string) => {

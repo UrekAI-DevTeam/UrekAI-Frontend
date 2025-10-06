@@ -136,7 +136,8 @@ export const dataAPI = {
       const formData = new FormData();
       formData.append('files', file);
       
-      const response = await fetch('/api/data/upload-file', {
+      // Direct backend call (CSR)
+      const response = await fetch(`${API_BASE_URL}/v1/api/data/upload-file`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
@@ -146,7 +147,7 @@ export const dataAPI = {
         let errorMessage = 'Upload failed';
         try {
           const errorData = await response.json();
-          errorMessage = errorData.error || `Upload failed with status ${response.status}`;
+          errorMessage = errorData.detail || errorData.error || `Upload failed with status ${response.status}`;
         } catch (parseError) {
           // If response is not JSON, handle specific status codes
           if (response.status === 413) {
@@ -188,17 +189,21 @@ export const dataAPI = {
 
   getUploadStatus: async (upload_id: string, extension: string) => {
     try {
+      // Direct backend call (CSR)
       const response = await fetch(
-        `/api/data/upload-status?upload_id=${upload_id}&extension=${extension}`,
+        `${API_BASE_URL}/v1/api/data/upload-status?upload_id=${upload_id}&extension=${extension}`,
         {
           method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          },
           credentials: 'include',
         }
       );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Status check failed');
+        const errorData = await response.json().catch(() => ({ detail: 'Status check failed' }));
+        throw new Error(errorData.detail || errorData.error || 'Status check failed');
       }
 
       const data = await response.json();
@@ -233,18 +238,20 @@ export const dataAPI = {
 
   deleteFile: async (uploadId: string) => {
     try {
-      const response = await fetch('/api/data/delete-file', {
+      // Direct backend call (CSR)
+      const response = await fetch(`${API_BASE_URL}/v1/api/data/upload-remove`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         credentials: 'include',
         body: JSON.stringify({ uploadId }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Delete failed');
+        const errorData = await response.json().catch(() => ({ detail: 'Delete failed' }));
+        throw new Error(errorData.detail || errorData.error || 'Delete failed');
       }
 
       const data = await response.json();
@@ -259,11 +266,12 @@ export const dataAPI = {
 export const chatAPI = {
   query: async (userQuery: string, attachedFiles?: any[], chatId?: string) => {
     try {
-      // Use the local API route to bypass CORS
-      const response = await fetch('/api/chat/query', {
+      // Direct backend call (CSR)
+      const response = await fetch(`${API_BASE_URL}/v1/api/chat/query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         credentials: 'include',
         body: JSON.stringify({ 
@@ -274,16 +282,21 @@ export const chatAPI = {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Chat query failed');
+        const errorData = await response.json().catch(() => ({ detail: 'Chat query failed' }));
+        throw new Error(errorData.detail || errorData.error || 'Chat query failed');
       }
 
       const data = await response.json();
-      console.log(data.data);
-      return data.data;
+      console.log('Chat API response:', data);
+      
+      // Handle different response structures
+      if (data.data) {
+        return data.data;
+      }
+      return data;
 
     } catch (error: unknown) {
-      console.error("Request failed:", error);
+      console.error("Chat query failed:", error);
       return { "type" : "error", "message": "Something went wrong. Please try again."};
     }
   },

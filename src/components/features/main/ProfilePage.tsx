@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useAuthStore } from '@/state/authStore';
+import { User } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/badge';
 import { 
-  User, 
+  User as UserIcon, 
   Mail, 
   Phone, 
   MapPin, 
@@ -29,7 +30,8 @@ export default ProfilePage;
 export function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [avatarError, setAvatarError] = useState(false);
-  const { user: authUser } = useAuthStore();
+  const { user: authUser, updateProfile } = useAuthStore();
+  
   const displayName = ((): string => {
     const fallback = authUser?.email ? authUser.email.split('@')[0] : 'User';
     if (!authUser?.name) return fallback;
@@ -37,15 +39,24 @@ export function ProfilePage() {
     return authUser.name;
   })();
   const initial = (displayName || 'U').charAt(0).toUpperCase();
+  
+  // Initialize profile data from authUser
   const [profileData, setProfileData] = useState({
-    name: 'Alex Johnson',
-    email: 'alex.johnson@company.com',
-    phone: '+1 (555) 123-4567',
-    location: 'San Francisco, CA',
-    role: 'Senior Data Analyst',
-    company: 'TechCorp Inc.',
-    joinDate: 'January 2023'
+    name: authUser?.name || '',
+    email: authUser?.email || '',
+    avatar: authUser?.avatar || ''
   });
+
+  // Sync profileData when authUser changes
+  React.useEffect(() => {
+    if (authUser) {
+      setProfileData({
+        name: authUser.name,
+        email: authUser.email,
+        avatar: authUser.avatar || ''
+      });
+    }
+  }, [authUser]);
 
   const stats = [
     { label: 'Analyses Created', value: '247', icon: BarChart3 },
@@ -78,9 +89,24 @@ export function ProfilePage() {
     }
   ];
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // Save logic would go here
+  const handleSave = async () => {
+    if (!authUser) return;
+    
+    try {
+      // Update the user in authStore
+      const updatedUser: User = {
+        ...authUser,
+        name: profileData.name,
+        email: profileData.email,
+        avatar: profileData.avatar
+      };
+      
+      await updateProfile(updatedUser);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+      // Could show an error toast here
+    }
   };
 
   return (
@@ -139,7 +165,7 @@ export function ProfilePage() {
                 <div className="flex-1 space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-text-muted mb-1 block">Full Name</label>
+                      <label className="text-sm font-medium text-text-secondary mb-1 block">Full Name</label>
                       <Input
                         value={profileData.name}
                         onChange={(e) => setProfileData({...profileData, name: e.target.value})}
@@ -161,41 +187,20 @@ export function ProfilePage() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-text-secondary mb-1 block">Phone Number</label>
+                      <label className="text-sm font-medium text-text-secondary mb-1 block">User ID</label>
                       <Input
-                        value={profileData.phone}
-                        onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
-                        disabled={!isEditing}
-                        className="bg-surface backdrop-blur-xl border-border text-text-primary placeholder-text-muted"
+                        value={authUser?.id || ''}
+                        disabled={true}
+                        className="bg-surface backdrop-blur-xl border-border text-text-muted placeholder-text-muted cursor-not-allowed"
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-text-secondary mb-1 block">Location</label>
+                      <label className="text-sm font-medium text-text-secondary mb-1 block">Avatar URL</label>
                       <Input
-                        value={profileData.location}
-                        onChange={(e) => setProfileData({...profileData, location: e.target.value})}
+                        value={profileData.avatar}
+                        onChange={(e) => setProfileData({...profileData, avatar: e.target.value})}
                         disabled={!isEditing}
-                        className="bg-surface backdrop-blur-xl border-border text-text-primary placeholder-text-muted"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-text-secondary mb-1 block">Role</label>
-                      <Input
-                        value={profileData.role}
-                        onChange={(e) => setProfileData({...profileData, role: e.target.value})}
-                        disabled={!isEditing}
-                        className="bg-surface backdrop-blur-xl border-border text-text-primary placeholder-text-muted"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-text-secondary mb-1 block">Company</label>
-                      <Input
-                        value={profileData.company}
-                        onChange={(e) => setProfileData({...profileData, company: e.target.value})}
-                        disabled={!isEditing}
+                        placeholder="https://example.com/avatar.jpg"
                         className="bg-surface backdrop-blur-xl border-border text-text-primary placeholder-text-muted"
                       />
                     </div>
@@ -221,33 +226,37 @@ export function ProfilePage() {
         <div className="space-y-6">
           <Card className="shadow-lg bg-surface backdrop-blur-xl rounded-2xl border border-border">
             <CardHeader>
-              <CardTitle className="text-text-primary">Account Details</CardTitle>
+              <CardTitle className="text-text-primary">Account Status</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-text-muted" />
+                <UserIcon className="w-5 h-5 text-text-muted" />
                 <div>
-                  <p className="text-sm text-text-secondary">Member Since</p>
-                  <p className="font-medium text-text-primary">{profileData.joinDate}</p>
+                  <p className="text-sm text-text-secondary">Account Status</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium text-text-primary">Active</p>
+                    <Badge className="bg-success/10 text-success border border-success/20">Verified</Badge>
+                  </div>
                 </div>
               </div>
               
               <div className="flex items-center gap-3">
                 <Shield className="w-5 h-5 text-text-muted" />
                 <div>
-                  <p className="text-sm text-text-secondary">Plan</p>
-                  <div className="flex items-center gap-2">
-                  <p className="font-medium text-text-primary">Pro Plan</p>
-                    <Badge className="bg-primary/10 text-primary border border-primary/20">Active</Badge>
-                  </div>
+                  <p className="text-sm text-text-secondary">Authentication</p>
+                  <p className="font-medium text-text-primary">
+                    {authUser?.firebase_token ? 'Firebase Connected' : 'Email/Password'}
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <Bell className="w-5 h-5 text-text-muted" />
+                <Mail className="w-5 h-5 text-text-muted" />
                 <div>
-                  <p className="text-sm text-text-secondary">Notifications</p>
-                  <p className="font-medium text-text-primary">Enabled</p>
+                  <p className="text-sm text-text-secondary">Email Status</p>
+                  <p className="font-medium text-text-primary">
+                    {authUser?.email ? 'Verified' : 'Not Set'}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -267,7 +276,7 @@ export function ProfilePage() {
                 Notification Preferences
               </Button>
               <Button variant="outline" className="w-full justify-start gap-2 text-text-primary border-border hover:bg-hover">
-                <User className="w-4 h-4" />
+                <UserIcon className="w-4 h-4" />
                 Privacy Settings
               </Button>
             </CardContent>
